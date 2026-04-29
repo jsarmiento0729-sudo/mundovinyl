@@ -46,7 +46,7 @@
             </div>
             <h3 class="text-xl font-black text-slate-900 mb-2 tracking-tight">Escríbenos</h3>
             <p class="text-slate-500 mb-6 leading-relaxed text-sm">Respondemos tus correos en menos de 24h.</p>
-            <a href="mailto:contacto@mundovinyl.com" class="text-lg font-bold text-blue-900 hover:text-orange-500 transition-colors">contacto@mundovinyl.com</a>
+            <a href="mailto:redes.mundovinyl.sancristobal@gmail.com" class="text-lg font-bold text-blue-900 hover:text-orange-500 transition-colors">redes.mundovinyl.sancristobal@gmail.com</a>
           </div>
 
           <!-- Address Card -->
