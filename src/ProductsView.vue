@@ -87,7 +87,7 @@
                     
                     <button @click="addToCart(item)" class="w-6 h-6 flex items-center justify-center hover:bg-white/10 rounded-md transition-colors">+</button>
                   </div>
-                  <span class="text-xs font-black text-blue-300">$${{ (item.quantity * item.prices[selectedCity]).toFixed(2) }}</span>
+                  <span class="text-xs font-black text-blue-300">${{ (item.quantity * item.prices[selectedCity]).toFixed(2) }}</span>
                 </div>
               </div>
             </div>
@@ -115,15 +115,15 @@
               <div class="space-y-3 pt-4 border-t border-white/10">
                 <div class="flex justify-between items-center text-sm">
                   <span class="text-blue-200">Subtotal:</span>
-                  <span class="font-bold text-white">$${{ cartTotal.toFixed(2) }}</span>
+                  <span class="font-bold text-white">${{ cartTotal.toFixed(2) }}</span>
                 </div>
                 <div class="flex justify-between items-center text-sm">
                   <span class="text-blue-200">IVA (16%):</span>
-                  <span class="font-bold text-white">$${{ cartIVA.toFixed(2) }}</span>
+                  <span class="font-bold text-white">${{ cartIVA.toFixed(2) }}</span>
                 </div>
                 <div class="flex justify-between items-center pt-3 border-t border-white/10">
                   <span class="text-base font-black text-white uppercase tracking-tighter">Total Final:</span>
-                  <span class="text-2xl font-black text-white">$${{ cartGrandTotal.toFixed(2) }}</span>
+                  <span class="text-2xl font-black text-white">${{ cartGrandTotal.toFixed(2) }}</span>
                 </div>
               </div>
               <button 
@@ -251,7 +251,7 @@
                 
                 <button @click="addToCart(item)" class="w-10 h-10 flex items-center justify-center hover:bg-white hover:shadow-sm rounded-lg transition-all text-2xl">+</button>
               </div>
-              <span class="font-black text-blue-900 text-xl">$${{ (item.quantity * item.prices[selectedCity]).toFixed(2) }}</span>
+              <span class="font-black text-blue-900 text-xl">${{ (item.quantity * item.prices[selectedCity]).toFixed(2) }}</span>
             </div>
           </div>
         </div>
@@ -279,15 +279,15 @@
           <div class="space-y-4 pt-6 border-t">
             <div class="flex justify-between items-center text-sm text-slate-500">
               <span>Subtotal:</span>
-              <span class="font-bold">$${{ cartTotal.toFixed(2) }}</span>
+              <span class="font-bold">${{ cartTotal.toFixed(2) }}</span>
             </div>
             <div class="flex justify-between items-center text-sm text-slate-500">
               <span>IVA (16%):</span>
-              <span class="font-bold">$${{ cartIVA.toFixed(2) }}</span>
+              <span class="font-bold">${{ cartIVA.toFixed(2) }}</span>
             </div>
             <div class="flex justify-between items-center pt-4 border-t">
               <span class="text-xl font-black text-slate-900 uppercase">Total Final:</span>
-              <span class="text-3xl font-black text-blue-900">$${{ cartGrandTotal.toFixed(2) }}</span>
+              <span class="text-3xl font-black text-blue-900">${{ cartGrandTotal.toFixed(2) }}</span>
             </div>
           </div>
           <button @click="checkoutWhatsApp" class="w-full py-5 bg-orange-500 text-white font-black rounded-2xl flex items-center justify-center gap-3">
@@ -302,7 +302,7 @@
 </template>
 
 <script setup>
-import { ref, computed, reactive } from 'vue';
+import { ref, computed, reactive, watch } from 'vue';
 import { productsData } from './products.js';
 
 const activeCategory = ref('Todos');
@@ -316,6 +316,11 @@ const selectInitialCity = (city) => {
   selectedCity.value = city;
   showCityModal.value = false;
 };
+
+// Asegurar que el carrito se actualice si cambia la ciudad
+watch(selectedCity, (newCity) => {
+  console.log(`Ciudad cambiada a: ${newCity}. Recalculando pedido...`);
+});
 
 const categoriesList = [
   'Viniles de Corte', 
