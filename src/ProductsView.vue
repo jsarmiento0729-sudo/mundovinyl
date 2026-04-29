@@ -366,18 +366,29 @@ const loadMore = () => {
 };
 
 const isDecimalProduct = (product) => {
-  const unitKeywords = ['ROLLO', 'UNIDAD', 'PIEZA', 'PAQUETE', 'RESMA', 'LITRO', 'POTE', 'GALON', 'KIT'];
-  const unitCategories = ['Rollos y Otros', 'Prendas', 'Tintas', 'Otros'];
+  const nameUpper = product.name.toUpperCase();
   
+  // Productos que NO permiten decimales (se venden por unidad/pieza)
+  const unitKeywords = [
+    'LAMINA', 'TAZA', 'TERMO', 'CINTA TERMICA', 'ROLLO', 
+    'FRANELA', 'HERRAMIENTA', 'TINTA', 'GORRA', 'UNIDAD', 
+    'PIEZA', 'PAQUETE', 'RESMA', 'KIT', 'POTE', 'GALON'
+  ];
+  
+  // Categorías que generalmente son por unidad
+  const unitCategories = ['Prendas', 'Tintas', 'Rollos y Otros', 'Herramientas'];
+
   if (unitCategories.includes(product.category)) return false;
   
-  const nameUpper = product.name.toUpperCase();
-  return !unitKeywords.some(keyword => nameUpper.includes(keyword));
+  // Si el nombre contiene alguna de las palabras clave, es por unidad (no decimal)
+  const isUnit = unitKeywords.some(keyword => nameUpper.includes(keyword));
+  
+  return !isUnit;
 };
 
 const addToCart = (product) => {
   const existing = cart.find(item => item.id === product.id);
-  const step = isDecimalProduct(product) ? 0.5 : 1;
+  const step = isDecimalProduct(product) ? 0.1 : 1;
   
   if (existing) {
     existing.quantity += step;
@@ -389,7 +400,7 @@ const addToCart = (product) => {
 const removeFromCart = (productId) => {
   const index = cart.findIndex(item => item.id === productId);
   if (index !== -1) {
-    const step = isDecimalProduct(cart[index]) ? 0.5 : 1;
+    const step = isDecimalProduct(cart[index]) ? 0.1 : 1;
     if (cart[index].quantity > step) {
       cart[index].quantity -= step;
     } else {
