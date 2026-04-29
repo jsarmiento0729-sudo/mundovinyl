@@ -25,6 +25,11 @@
           
           <!-- Search Hidden on tiny screens -->
           <!-- Removed non-functional search bar -->
+          
+          <router-link to="/productos" class="relative p-2 text-blue-900 hover:text-orange-600 transition-all flex items-center gap-2 bg-slate-50 rounded-xl border border-slate-100">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+            <span class="text-xs font-black uppercase tracking-tighter hidden xs:block">Mi Pedido</span>
+          </router-link>
 
           <!-- Placeholder buttons removed -->
 
@@ -48,7 +53,10 @@
         <div v-if="isMobileMenuOpen" class="lg:hidden bg-white border-t border-gray-100 shadow-xl py-8 px-6 flex flex-col gap-y-4 absolute w-full left-0 z-40">
           <!-- Removed non-functional search bar -->
           <router-link to="/" class="text-xl font-bold text-blue-900 border-b border-gray-50 pb-2" @click="isMobileMenuOpen = false">Inicio</router-link>
-          <router-link to="/productos" class="text-xl font-bold text-blue-900 border-b border-gray-50 pb-2" @click="isMobileMenuOpen = false">Productos</router-link>
+          <router-link to="/productos" class="text-xl font-bold text-orange-600 border-b border-orange-50 pb-2 flex items-center justify-between" @click="isMobileMenuOpen = false">
+            Realizar Pedido / Carrito
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+          </router-link>
           <router-link to="/quienes-somos" class="text-xl font-bold text-blue-900 border-b border-gray-50 pb-2" @click="isMobileMenuOpen = false">Quiénes Somos</router-link>
           <router-link to="/tiendas" class="text-xl font-bold text-blue-900 border-b border-gray-50 pb-2" @click="isMobileMenuOpen = false">Tiendas</router-link>
           <router-link to="/contactanos" class="text-xl font-bold text-blue-900 border-b border-gray-50 pb-2" @click="isMobileMenuOpen = false">Contáctanos</router-link>
