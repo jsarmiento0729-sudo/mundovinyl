@@ -139,6 +139,18 @@
 
         <!-- PRODUCT GRID -->
         <main class="flex-grow">
+          <!-- Mobile Cart Access -->
+          <div v-if="cart.length > 0" class="lg:hidden mb-6 flex items-center justify-between bg-blue-50 p-4 rounded-2xl border border-blue-100">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 bg-blue-900 text-white rounded-full flex items-center justify-center font-black">
+                {{ cart.length }}
+              </div>
+              <span class="font-bold text-blue-900">Productos en tu pedido</span>
+            </div>
+            <button @click="showMobileCart = true" class="bg-blue-900 text-white px-6 py-2 rounded-xl font-bold text-sm shadow-lg">
+              Ver Carrito
+            </button>
+          </div>
           <!-- SEARCH BAR -->
           <div class="mb-10 relative">
             <input 
@@ -198,12 +210,12 @@
     </div>
 
     <!-- MOBILE CART FLOATING BUTTON -->
-    <div v-if="cart.length > 0" class="lg:hidden fixed bottom-6 right-6 z-50">
+    <div v-if="cart.length > 0" class="lg:hidden fixed bottom-6 left-6 z-[110]">
       <button 
         @click="showMobileCart = true"
-        class="bg-blue-900 text-white p-6 rounded-full shadow-2xl flex items-center gap-3 animate-bounce">
-        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
-        <span class="font-black">{{ cart.length }} ítems</span>
+        class="bg-blue-900 text-white p-6 rounded-full shadow-2xl flex items-center gap-3 animate-pulse border-4 border-white">
+        <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+        <span class="font-black text-xl">{{ cart.length }}</span>
       </button>
     </div>
 
