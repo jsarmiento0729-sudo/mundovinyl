@@ -255,22 +255,40 @@
 <script setup>
 import { ref, computed, reactive, watch } from 'vue';
 import { productsData } from './products.js';
+import { globalState } from './store.js';
 
 const activeCategory = ref('Todos');
 const showMobileCart = ref(false);
 const cart = reactive([]);
-const customerName = ref('');
-const selectedCity = ref('Táchira');
-const showCityModal = ref(true);
+
+// Usar estado global para persistencia en navegación
+const selectedCity = computed({
+  get: () => globalState.selectedCity || 'Táchira',
+  set: (val) => { globalState.selectedCity = val; }
+});
+
+const customerName = computed({
+  get: () => globalState.customerName,
+  set: (val) => { globalState.customerName = val; }
+});
+
+// El modal solo se muestra si NO se ha seleccionado ciudad en esta sesión (esta carga de página)
+const showCityModal = ref(!globalState.hasSelectedCityThisSession);
 
 const selectInitialCity = (city) => {
   selectedCity.value = city;
+  globalState.hasSelectedCityThisSession = true;
   showCityModal.value = false;
+  localStorage.setItem('mundovinyl_city', city);
 };
 
-// Asegurar que el carrito se actualice si cambia la ciudad
-watch(selectedCity, (newCity) => {
-  console.log(`Ciudad cambiada a: ${newCity}. Recalculando pedido...`);
+// Observar cambios para persistir en localStorage (opcional, pero útil)
+watch(() => globalState.selectedCity, (newCity) => {
+  localStorage.setItem('mundovinyl_city', newCity);
+});
+
+watch(() => globalState.customerName, (newName) => {
+  localStorage.setItem('mundovinyl_name', newName);
 });
 
 const categoriesList = [

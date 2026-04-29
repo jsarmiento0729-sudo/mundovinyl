@@ -23,8 +23,10 @@
 
         <div class="flex items-center gap-x-3 md:gap-x-5 text-blue-900">
           
-          <!-- Search Hidden on tiny screens -->
-          <!-- Removed non-functional search bar -->
+          <!-- City Display (Only shows after selection in the session) -->
+          <div v-if="currentCity && globalState.hasSelectedCityThisSession" class="hidden sm:flex flex-col items-end leading-none px-4 py-2 bg-orange-50 rounded-xl border border-orange-100">
+            <span class="text-[10px] font-black text-orange-500 uppercase tracking-tighter">{{ currentCity === 'Nacional / Otros' ? 'Nacional' : currentCity }}</span>
+          </div>
           
           <router-link to="/productos" class="relative p-2 text-blue-900 hover:text-orange-600 transition-all flex items-center gap-2 bg-slate-50 rounded-xl border border-slate-100">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
@@ -54,7 +56,7 @@
           <!-- Removed non-functional search bar -->
           <router-link to="/" class="text-xl font-bold text-blue-900 border-b border-gray-50 pb-2" @click="isMobileMenuOpen = false">Inicio</router-link>
           <router-link to="/productos" class="text-xl font-bold text-orange-600 border-b border-orange-50 pb-2 flex items-center justify-between" @click="isMobileMenuOpen = false">
-            Realizar Pedido / Carrito
+            <span>Realizar Pedido {{ currentCity && globalState.hasSelectedCityThisSession ? '(' + (currentCity === 'Nacional / Otros' ? 'Nacional' : currentCity) + ')' : '' }}</span>
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
           </router-link>
           <router-link to="/quienes-somos" class="text-xl font-bold text-blue-900 border-b border-gray-50 pb-2" @click="isMobileMenuOpen = false">Quiénes Somos</router-link>
@@ -152,10 +154,13 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-// This script uses Vue 3 Composition API with <script setup>
+import { ref, computed } from 'vue';
+import { globalState } from './store.js';
 
 const isMobileMenuOpen = ref(false);
+
+const currentCity = computed(() => globalState.selectedCity);
+const customerName = computed(() => globalState.customerName);
 
 const getIcon = (slug) => {
   const icons = {
