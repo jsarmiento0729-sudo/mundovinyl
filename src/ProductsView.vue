@@ -283,12 +283,18 @@
                   <!-- Cantidad + Subtotal + Eliminar -->
                   <div class="flex items-center justify-between md:justify-end md:gap-6">
                     <!-- Cantidad -->
-                    <div class="w-32 md:w-36 flex-shrink-0">
+                    <div class="w-36 md:w-40 flex-shrink-0">
                       <div class="flex items-center bg-slate-100 md:bg-slate-50 border border-slate-200 rounded-xl overflow-hidden h-10 md:h-12">
                         <button @click="removeFromCart(item.id)" class="w-10 h-full flex items-center justify-center text-slate-500 hover:text-orange-500 text-xl font-bold transition-colors flex-shrink-0">-</button>
-                        <div class="flex-grow text-center font-black text-slate-900 text-sm md:text-base select-none">
-                          {{ isDecimalProduct(item) ? item.quantity.toFixed(2) : item.quantity }}
-                        </div>
+                        <input
+                          :value="isDecimalProduct(item) ? item.quantity.toFixed(2) : item.quantity"
+                          @change="setQuantity(item, $event.target.value)"
+                          @focus="$event.target.select()"
+                          type="number"
+                          min="0"
+                          :step="isDecimalProduct(item) ? '0.01' : '1'"
+                          class="flex-grow w-0 text-center font-black text-slate-900 text-sm md:text-base bg-transparent outline-none border-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                        />
                         <button @click="addToCart(item)" class="w-10 h-full flex items-center justify-center text-slate-500 hover:text-orange-500 text-xl font-bold transition-colors flex-shrink-0">+</button>
                       </div>
                     </div>
@@ -664,6 +670,21 @@ const deleteFromCart = (productId) => {
   if (index !== -1) {
     cart.splice(index, 1);
   }
+};
+
+const setQuantity = (item, rawValue) => {
+  const parsed = parseFloat(rawValue);
+  if (isNaN(parsed) || parsed <= 0) {
+    // Si el valor es inválido o 0, eliminar del carrito
+    const index = cart.findIndex(i => i.id === item.id);
+    if (index !== -1) cart.splice(index, 1);
+    return;
+  }
+  // Si es producto por unidad, redondear al entero
+  const qty = isDecimalProduct(item)
+    ? Math.round(parsed * 100) / 100
+    : Math.round(parsed);
+  item.quantity = qty;
 };
 
 const cartTotal = computed(() => {
