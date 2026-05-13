@@ -306,53 +306,53 @@
           </div>
 
           <!-- Order Summary & Checkout (Right Sidebar in Modal) -->
-          <div class="w-full md:w-[450px] bg-slate-900 p-8 md:p-12 text-white flex flex-col overflow-y-auto custom-scrollbar border-l border-white/5">
+          <div class="w-full md:w-[450px] bg-white md:bg-slate-900 p-8 md:p-12 flex flex-col md:border-l border-slate-100 md:border-white/5 overflow-y-visible md:overflow-y-auto custom-scrollbar">
             <div class="space-y-10 flex-grow">
               <div class="flex justify-between items-center">
                 <h4 class="text-xl font-black uppercase tracking-widest text-orange-500">Resumen del Pedido</h4>
-                <button @click="clearCart" class="text-[10px] font-black uppercase tracking-widest text-red-400/60 hover:text-red-400 transition-colors">Vaciar Carrito</button>
+                <button @click="clearCart" class="text-[10px] font-black uppercase tracking-widest text-red-500 md:text-red-400/60 hover:text-red-600 md:hover:text-red-400 transition-colors">Vaciar Carrito</button>
               </div>
               
               <!-- Customer Form -->
               <div class="space-y-8">
                 <div class="space-y-3">
-                  <label class="text-[10px] font-black uppercase tracking-widest text-slate-500 flex justify-between items-center">
+                  <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 flex justify-between items-center">
                     <span>Nombre del Cliente</span>
                     <span v-if="!customerName" class="text-orange-500/50 text-[8px]">Requerido</span>
                   </label>
                   <div class="relative group">
                     <input v-model="customerName" type="text" placeholder="Ej: Juan Pérez" 
-                          class="w-full bg-white/5 border border-white/10 rounded-2xl py-5 px-6 text-white focus:ring-2 focus:ring-orange-500 outline-none transition-all group-hover:border-white/20" />
-                    <svg class="w-5 h-5 text-white/20 absolute right-6 top-1/2 -translate-y-1/2 group-focus-within:text-orange-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                          class="w-full bg-slate-50 md:bg-white/5 border border-slate-200 md:border-white/10 rounded-2xl py-5 px-6 text-slate-900 md:text-white focus:ring-2 focus:ring-orange-500 outline-none transition-all group-hover:border-slate-300 md:group-hover:border-white/20" />
+                    <svg class="w-5 h-5 text-slate-300 md:text-white/20 absolute right-6 top-1/2 -translate-y-1/2 group-focus-within:text-orange-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
                   </div>
                 </div>
                 <div class="space-y-3">
-                  <label class="text-[10px] font-black uppercase tracking-widest text-slate-500">Sede para el Pedido</label>
+                  <label class="text-[10px] font-black uppercase tracking-widest text-slate-400">Sede para el Pedido</label>
                   <div class="relative group">
                     <select v-model="selectedCity" 
-                            class="w-full bg-white/5 border border-white/10 rounded-2xl py-5 px-6 text-white focus:ring-2 focus:ring-orange-500 outline-none cursor-pointer appearance-none transition-all group-hover:border-white/20">
+                            class="w-full bg-slate-50 md:bg-white/5 border border-slate-200 md:border-white/10 rounded-2xl py-5 px-6 text-slate-900 md:text-white focus:ring-2 focus:ring-orange-500 outline-none cursor-pointer appearance-none transition-all group-hover:border-slate-300 md:group-hover:border-white/20">
                       <option value="Táchira" class="text-slate-900">San Cristóbal (Táchira)</option>
                       <option value="Caracas" class="text-slate-900">Caracas</option>
                       <option value="Barinas" class="text-slate-900">Barinas</option>
                       <option value="Nacional / Otros" class="text-slate-900">Otras Ciudades / Nacional</option>
                     </select>
-                    <svg class="w-5 h-5 text-white/20 absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none group-focus-within:text-orange-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    <svg class="w-5 h-5 text-slate-300 md:text-white/20 absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none group-focus-within:text-orange-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                   </div>
                 </div>
               </div>
 
             <!-- Totals & Button -->
-            <div class="mt-12 pt-10 border-t border-white/10 space-y-8 pb-32 md:pb-0">
+            <div class="mt-12 pt-10 border-t border-slate-100 md:border-white/10 space-y-8 pb-32 md:pb-0">
               <div class="space-y-5">
-                <div class="flex justify-between items-center text-slate-400 text-sm">
+                <div class="flex justify-between items-center text-slate-500 md:text-slate-400 text-sm">
                   <span class="font-medium">Subtotal de productos:</span>
-                  <span class="font-bold text-white text-lg">${{ cartTotal.toFixed(2) }}</span>
+                  <span class="font-bold text-slate-900 md:text-white text-lg">${{ cartTotal.toFixed(2) }}</span>
                 </div>
-                <div class="flex justify-between items-center text-slate-400 text-sm">
+                <div class="flex justify-between items-center text-slate-500 md:text-slate-400 text-sm">
                   <span class="font-medium">IVA (16%):</span>
-                  <span class="font-bold text-white text-lg">${{ cartIVA.toFixed(2) }}</span>
+                  <span class="font-bold text-slate-900 md:text-white text-lg">${{ cartIVA.toFixed(2) }}</span>
                 </div>
-                <div class="flex flex-col gap-2 pt-8 border-t border-white/20 hidden md:flex">
+                <div class="flex flex-col gap-2 pt-8 border-t border-slate-200 md:border-white/20 hidden md:flex">
                   <div class="flex justify-between items-end">
                     <span class="text-xs font-black uppercase tracking-[0.2em] text-slate-500">Monto Total Estimado</span>
                     <span class="text-5xl font-black text-orange-500 tracking-tighter">${{ cartGrandTotal.toFixed(2) }}</span>
