@@ -87,7 +87,7 @@
             </button>
           </div>
           <!-- SEARCH BAR -->
-          <div class="mb-10 relative">
+          <div id="product-search" class="mb-10 relative">
             <input 
               v-model="searchQuery"
               type="text" 
@@ -420,7 +420,7 @@
 </template>
 
 <script setup>
-import { ref, computed, reactive, watch } from 'vue';
+import { ref, computed, reactive, watch, onMounted, nextTick } from 'vue';
 import { productsData } from './products.js';
 import { globalState } from './store.js';
 
@@ -449,7 +449,27 @@ const customerName = computed({
 });
 
 // El modal solo se muestra si NO se ha seleccionado ciudad en esta sesión (esta carga de página)
+// El modal solo se muestra si NO se ha seleccionado ciudad en esta sesión (esta carga de página)
 const showCityModal = ref(!globalState.hasSelectedCityThisSession);
+
+// Vigilar cambios en el estado global (para cuando se pulsan botones en el Navbar)
+watch(() => [globalState.openCartOnLoad, globalState.resetCityOnLoad], ([openCart, resetCity]) => {
+  if (resetCity) {
+    globalState.resetCityOnLoad = false;
+    showCityModal.value = true;
+  }
+  
+  if (openCart) {
+    globalState.openCartOnLoad = false;
+    showMobileCart.value = true;
+    nextTick(() => {
+      setTimeout(() => {
+        const el = document.getElementById('product-search');
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 300);
+    });
+  }
+}, { immediate: true });
 
 const selectInitialCity = (city) => {
   selectedCity.value = city;

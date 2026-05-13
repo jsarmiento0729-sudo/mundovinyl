@@ -23,15 +23,25 @@
 
         <div class="flex items-center gap-x-3 md:gap-x-5 text-blue-900">
           
-          <!-- City Display (Only shows after selection in the session) -->
-          <div v-if="currentCity && globalState.hasSelectedCityThisSession" class="hidden sm:flex flex-col items-end leading-none px-4 py-2 bg-orange-50 rounded-xl border border-orange-100">
+          <!-- City Display: clickable to change city -->
+          <button
+            v-if="currentCity && globalState.hasSelectedCityThisSession"
+            @click="changeCity"
+            class="hidden sm:flex items-center gap-2 leading-none px-3 py-2 bg-orange-50 hover:bg-orange-100 rounded-xl border border-orange-100 transition-all group"
+            title="Cambiar ciudad"
+          >
             <span class="text-[10px] font-black text-orange-500 uppercase tracking-tighter">{{ currentCity === 'Nacional / Otros' ? 'Nacional' : currentCity }}</span>
-          </div>
-          
-          <router-link to="/productos" class="relative p-2 text-blue-900 hover:text-orange-600 transition-all flex items-center gap-2 bg-slate-50 rounded-xl border border-slate-100">
+            <svg class="w-3 h-3 text-orange-400 group-hover:text-orange-600 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+          </button>
+
+          <!-- Cart Button: opens cart modal on /productos -->
+          <button
+            @click="openCart"
+            class="relative p-2 text-blue-900 hover:text-orange-600 transition-all flex items-center gap-2 bg-slate-50 hover:bg-orange-50 rounded-xl border border-slate-100 hover:border-orange-200"
+          >
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
             <span class="text-xs font-black uppercase tracking-tighter hidden xs:block">Mi Pedido</span>
-          </router-link>
+          </button>
 
           <!-- Placeholder buttons removed -->
 
@@ -155,7 +165,10 @@
 
 <script setup>
 import { ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
 import { globalState } from './store.js';
+
+const router = useRouter();
 
 const isMobileMenuOpen = ref(false);
 
@@ -203,6 +216,19 @@ const categories = [
   { name: 'FRANELAS', slug: 'franelas' },
   { name: 'GORRAS', slug: 'gorras' },
 ];
+
+// Cambiar la ciudad seleccionada: resetea la sesión y abre el modal de ciudad en /productos
+const changeCity = () => {
+  globalState.hasSelectedCityThisSession = false;
+  globalState.resetCityOnLoad = true;
+  router.push('/productos');
+};
+
+// Abrir el carrito: navega a /productos y señala que abra el modal del carrito
+const openCart = () => {
+  globalState.openCartOnLoad = true;
+  router.push('/productos');
+};
 
 </script>
 
