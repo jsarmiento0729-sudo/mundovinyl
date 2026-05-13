@@ -304,7 +304,71 @@ const categoriesList = [
   'Otros'
 ];
 
-const products = productsData;
+const products = productsData.map(product => {
+  let img = product.image;
+  const name = product.name.toUpperCase();
+  
+  // 1. Match 4-digit code (e.g. 6010, 1002)
+  const codeMatch = name.match(/(\d{4})/);
+  if (codeMatch) {
+    const code = codeMatch[1];
+    const isPB = name.includes('PB');
+    
+    // Special check for codes known to exist in /img/
+    const validCodes = ['1002', '1011', '1040', '1049', '1052', '1067', '1068', '1087', '6814','1096', '1800', '1805', '2010', '2011', '2021', '2025', '2031', '2032', '2034', '2037', '2039', '2040', '2041', '2049', '2056', '2061', '2065', '2067', '2068', '2074', '2075', '2076', '2086', '2087', '2088', '2090', '2095', '2096', '2097', '2631', '2800', '2805', '6010', '6011', '6021', '6022', '6025', '6026', '6031', '6032', '6033', '6034', '6035', '6037','6038', '6039', '6040', '6041', '6049', '6050', '6051', '6052', '6056', '6060', '6061', '6062', '6065', '6066', '6067', '6068', '6072', '6073', '6074', '6075', '6076', '6080', '6086', '6087', '6088', '6090', '6095', '6096', '6097', '6631', '6800', '6805', '7803', '7804', '7807', '7809', '7810', '7811', '7813', '7816', '7819', '9101', '9102', '9103', '9104', '9107'];
+    
+    if (isPB && ['7803', '7804'].includes(code)) {
+      img = `/img/${code} PB.jpg`;
+    } else if (validCodes.includes(code)) {
+      img = `/img/${code}.jpg`;
+    }
+  }
+  
+  // 2. Match Papel Ahumado
+  else if (name.includes('PAPEL AHUMADO')) {
+    if (name.includes('1%')) img = '/img/papel ahumado 1%.jpg';
+    else if (name.includes('20%')) img = '/img/papel ahumado 20%.jpg';
+    else if (name.includes('35%')) img = '/img/papel ahumado 35%.jpg';
+    else if (name.includes('ESPEJO')) img = '/img/papel tipo espejo plata.jpg';
+  }
+  
+  // 3. Match Esmerilado
+  else if (name.includes('ESMERILADO')) {
+    if (name.includes('BLANCO')) img = '/img/esmerilado blanco.jpg';
+    else if (name.includes('GRIS')) img = '/img/esmerilado gris.jpg';
+  }
+  
+  // 4. Match TM Reflectivo
+  else if (name.includes('TM REFLECTIVO') || (name.includes('TM ') && !name.includes('DE '))) {
+    if (name.includes('BLANCO')) img = '/img/tm blanco.jpg';
+    else if (name.includes('AMARILLO')) img = '/img/tm amarillo.jpg';
+    else if (name.includes('AZUL')) img = '/img/tm azul.jpg';
+    else if (name.includes('ROJO')) img = '/img/tm rojo.jpg';
+    else if (name.includes('VERDE')) img = '/img/tm verde.jpg';
+    else if (name.includes('NARANJA')) img = '/img/tm naranja.jpg';
+    else if (name.includes('NEGRO')) img = '/img/tm negro.jpg';
+  }
+  
+  // 5. Match DF Pastel
+  else if (name.includes('DF ')) {
+    const dfMatch = name.match(/DF\s?(\d{2})/);
+    if (dfMatch) {
+      const num = dfMatch[1];
+      if (['02','03','05','06','07'].includes(num)) img = `/img/df ${num}.jpg`;
+      else img = `/img/df${num}.jpg`;
+    }
+  }
+
+  // 6. Other specific ones
+  else if (name.includes('TORNASOL')) img = '/img/tornasol.jpg';
+  else if (name.includes('VINYL IMANTADO')) img = '/img/vinyl imantado.jpg';
+  else if (name.includes('ROSA GLITER')) img = '/img/rosa gliter.jpg';
+  else if (name.includes('CLEAR')) img = '/img/CLEAR.jpg';
+  else if (name.includes('TA-02')) img = '/img/TA-02.jpg';
+  else if (name.includes('TT01')) img = '/img/TT01.jpg';
+  
+  return { ...product, image: img };
+});
 const searchQuery = ref('');
 const displayLimit = ref(24);
 
@@ -405,13 +469,13 @@ const checkoutWhatsApp = () => {
 
   // Enrutamiento por ciudad
   const phoneNumbers = {
-    'Táchira': '584247000814',
+    'Táchira': '584247285832',
     'Caracas': '584227772800',
     'Barinas': '584120998630',
-    'Nacional / Otros': '584247000814'
+    'Nacional / Otros': '584247285832'
   };
 
-  const phoneNumber = phoneNumbers[selectedCity.value] || '584247000814';
+  const phoneNumber = phoneNumbers[selectedCity.value] || '584247285832';
   
   let message = `¡Hola MundoVinyl! 👋\n\n`;
   message += `👤 *Cliente:* ${customerName.value}\n`;

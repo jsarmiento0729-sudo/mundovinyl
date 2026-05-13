@@ -167,7 +167,7 @@ const stores = [
     city: 'Táchira',
     address: 'Calle 16, San Cristóbal 5001, Táchira.',
     hours: 'Lun - Sáb: 8:00 AM - 6:00 PM',
-    phone: '+58 424-7000814',
+    phone: '+58 424-7285832',
     googleMapsUrl: 'https://maps.app.goo.gl/DCEFnKSqSCfZfwGQA',
     mapUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15814.73772849557!2d-72.23!3d7.77!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e66683f2e1a3b3b%3A0x6a1b2b3c4d5e6f7g!2sSan%20Crist%C3%B3bal%2C%20T%C3%A1chira!5e0!3m2!1ses!2sve!4v1620000000000!5m2!1ses!2sve'
   },
@@ -181,11 +181,11 @@ const stores = [
   },
   {
     city: 'Barinas',
-    address: 'Av. 23 de Enero, C.C. El Marqués, Planta Baja, Local 4, Barinas.',
+    address: 'Av. 23 de Enero, Barinas 5201, Barinas.',
     hours: 'Lun - Vie: 8:00 AM - 5:00 PM',
     phone: '+58 412-0998630',
-    googleMapsUrl: 'https://maps.google.com/?q=Barinas+Venezuela',
-    mapUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3950.1!2d-70.2!3d8.6!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e63a0a8a8a8a8a8%3A0x8a8a8a8a8a8a8a8a!2sBarinas%2C%20Venezuela!5e0!3m2!1ses!2sve!4v1620000000000!5m2!1ses!2sve'
+    googleMapsUrl: 'https://www.google.com/maps/search/?api=1&query=Barinas+Forum+Mall',
+    mapUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3944.740793364176!2d-70.23473072647623!3d8.620865195247163!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e7b582e7cd285d1%3A0x435c9ec73e103b60!2sBarinas%20Forum%20Mall!5e0!3m2!1sen!2sve!4v1778650854591!5m2!1sen!2sve'
   }
 ];
 
@@ -196,7 +196,7 @@ const form = reactive({
 });
 
 const sendToWhatsApp = () => {
-  const phoneNumber = '584247000814'; // Número para compras nacionales y mayoristas
+  const phoneNumber = '584247285832'; // Número para compras nacionales y mayoristas
   const text = `¡Hola MundoVinyl! Mi nombre es ${form.name}. Escribo desde ${form.city}. Mi consulta es: ${form.message}`;
   const encodedText = encodeURIComponent(text);
   window.open(`https://wa.me/${phoneNumber}?text=${encodedText}`, '_blank');

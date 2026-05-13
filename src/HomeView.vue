@@ -2,7 +2,7 @@
   <div class="bg-slate-50 font-sans selection:bg-orange-500 selection:text-white">
     
     <!-- HERO SECTION PREMIUM -->
-    <section class="relative h-[85vh] min-h-[600px] flex items-center justify-center overflow-hidden bg-slate-950">
+    <section class="relative h-[80vh] min-h-[500px] flex items-center justify-center overflow-hidden bg-slate-950">
       <div class="absolute inset-0 z-0">
         <img src="/mundo.jpg" alt="Hero Background" class="w-full h-full object-cover opacity-40 scale-105 animate-slow-zoom" />
         <div class="absolute inset-0 bg-gradient-to-b from-slate-950/80 via-transparent to-slate-950/90"></div>
@@ -10,13 +10,13 @@
 
       <div class="container mx-auto px-6 relative z-10">
         <div class="max-w-4xl mx-auto text-center">
-          <span class="inline-block px-4 py-1.5 mb-6 text-xs font-black tracking-widest text-orange-500 uppercase bg-orange-500/10 rounded-full border border-orange-500/20 animate-fade-in-down">
+          <span class="inline-block px-4 py-1.5 mb-4 text-xs font-black tracking-widest text-orange-500 uppercase bg-orange-500/10 rounded-full border border-orange-500/20 animate-fade-in-down">
             Expertos en Soluciones Gráficas
           </span>
-          <h1 class="text-5xl md:text-8xl font-black text-white mb-8 leading-tight tracking-tight animate-fade-in-up">
+          <h1 class="text-4xl md:text-6xl lg:text-7xl font-black text-white mb-6 leading-tight tracking-tight animate-fade-in-up">
             Potencia tu <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-600">creatividad</span> al máximo
           </h1>
-          <p class="text-xl text-slate-300 mb-12 max-w-2xl mx-auto font-light leading-relaxed animate-fade-in-up delay-100">
+          <p class="text-lg md:text-xl text-slate-300 mb-8 max-w-2xl mx-auto font-light leading-relaxed animate-fade-in-up delay-100">
             Distribución líder de insumos, vinilos y materiales profesionales para la industria publicitaria en toda Venezuela desde el 2011.
           </p>
           <div class="flex flex-col sm:flex-row items-center justify-center gap-6 animate-fade-in-up delay-200">
@@ -127,14 +127,14 @@
               <img src="/logo2.png" alt="Featured Work" class="w-full h-full object-cover" />
             </div>
             <!-- Floating element -->
-            <div class="absolute -bottom-10 -left-10 bg-white p-8 rounded-[2rem] shadow-2xl hidden md:block">
-              <div class="flex items-center gap-4">
-                <div class="w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center">
-                  <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 11-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"></path></svg>
+            <div class="absolute -bottom-10 left-1/2 -translate-x-1/2 bg-white p-6 rounded-[2rem] shadow-2xl hidden md:block min-w-[280px]">
+              <div class="flex flex-col items-center text-center gap-3">
+                <div class="w-14 h-14 bg-green-100 text-green-600 rounded-2xl flex items-center justify-center shadow-inner">
+                  <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20"><path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 11-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"></path></svg>
                 </div>
                 <div>
-                  <div class="text-sm font-black text-slate-900">Satisfacción Total</div>
-                  <div class="text-xs text-slate-500">Calificación 5/5 de nuestros clientes</div>
+                  <div class="text-base font-black text-slate-900 mb-1">Satisfacción Total</div>
+                  <div class="text-xs text-slate-500 font-medium">Calificación 5/5 de nuestros clientes</div>
                 </div>
               </div>
             </div>
