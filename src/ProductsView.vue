@@ -2,13 +2,25 @@
   <div class="bg-slate-50 min-h-screen font-sans selection:bg-orange-500 selection:text-white pb-20">
     
     <!-- HERO SECTION -->
-    <section class="relative bg-slate-950 pt-28 pb-20 px-6 overflow-hidden">
-      <div class="absolute inset-0">
-        <div class="absolute inset-0 bg-gradient-to-br from-blue-950 via-slate-900 to-slate-950 opacity-90 z-10"></div>
+    <section class="relative bg-slate-950 pt-32 pb-24 px-6 overflow-hidden">
+      <div class="absolute inset-0 z-0">
+        <img src="/mundo.jpg" alt="Hero Background" class="w-full h-full object-cover opacity-20 scale-105 animate-slow-zoom" />
+        <div class="absolute inset-0 bg-gradient-to-b from-slate-950/90 via-slate-950/50 to-slate-950/90 z-10"></div>
       </div>
-      <div class="container mx-auto relative z-20 text-center">
-        <h1 class="text-4xl md:text-6xl font-black text-white mb-4 tracking-tight">Catálogo de <span class="text-orange-500">Productos</span></h1>
-        <p class="text-slate-400 max-w-xl mx-auto">Selecciona tus insumos y arma tu pedido directamente para WhatsApp.</p>
+      <div class="container mx-auto relative z-20 text-center max-w-4xl">
+        <span class="inline-block px-4 py-1.5 mb-6 text-xs font-black tracking-widest text-orange-500 uppercase bg-orange-500/10 rounded-full border border-orange-500/20 animate-fade-in-down">
+          Calidad Profesional Garantizada
+        </span>
+        <h1 class="text-5xl md:text-7xl font-black text-white mb-6 tracking-tight leading-tight">
+          Catálogo de <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-600">Productos</span>
+        </h1>
+        <p class="text-lg md:text-xl text-slate-300 max-w-2xl mx-auto font-light leading-relaxed mb-10">
+          Explora nuestra amplia gama de insumos publicitarios. Selecciona tus materiales, ajusta las cantidades y realiza tu pedido directamente por WhatsApp.
+        </p>
+        <router-link to="/" class="inline-flex items-center gap-2 px-8 py-3 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-xl transition-all font-bold text-sm">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+          Volver al Inicio
+        </router-link>
       </div>
     </section>
 
@@ -115,12 +127,30 @@
             </div>
           </div>
 
-          <!-- LOAD MORE -->
-          <div v-if="displayLimit < filteredProducts.length" class="mt-16 text-center">
+          <!-- PAGINATION -->
+          <div v-if="totalPages > 1" class="mt-16 flex flex-wrap justify-center items-center gap-3">
             <button 
-              @click="loadMore"
-              class="px-12 py-4 bg-white border-2 border-slate-200 text-slate-900 font-black rounded-2xl hover:border-orange-500 hover:text-orange-500 transition-all">
-              Cargar más productos
+              @click="prevPage"
+              :disabled="currentPage === 1"
+              class="w-12 h-12 flex items-center justify-center rounded-xl border-2 border-slate-200 text-slate-400 hover:border-orange-500 hover:text-orange-500 disabled:opacity-30 disabled:hover:border-slate-200 disabled:hover:text-slate-400 transition-all shadow-sm">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+            </button>
+            
+            <div class="flex items-center gap-2">
+              <button 
+                v-for="page in visiblePages" :key="page"
+                @click="currentPage = page"
+                :class="currentPage === page ? 'bg-orange-500 text-white border-orange-500 shadow-lg shadow-orange-500/30' : 'bg-white text-slate-600 border-slate-200 hover:border-orange-500'"
+                class="w-12 h-12 rounded-xl border-2 font-black transition-all">
+                {{ page }}
+              </button>
+            </div>
+
+            <button 
+              @click="nextPage"
+              :disabled="currentPage === totalPages"
+              class="w-12 h-12 flex items-center justify-center rounded-xl border-2 border-slate-200 text-slate-400 hover:border-orange-500 hover:text-orange-500 disabled:opacity-30 disabled:hover:border-slate-200 disabled:hover:text-slate-400 transition-all shadow-sm">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
             </button>
           </div>
 
@@ -146,104 +176,178 @@
       <div v-if="showMobileCart" class="fixed inset-0 z-[120] flex items-center justify-center p-4 md:p-12">
         <div class="absolute inset-0 bg-slate-950/80 backdrop-blur-md" @click="showMobileCart = false"></div>
         
-        <div class="relative w-full max-w-4xl bg-white rounded-[3rem] shadow-2xl overflow-hidden flex flex-col md:flex-row h-full max-h-[90vh] animate-slide-up">
+        <div class="relative w-full max-w-7xl bg-white rounded-[3rem] shadow-2xl overflow-hidden flex flex-col md:flex-row h-full md:h-[90vh] max-h-screen md:max-h-[900px] animate-slide-up mx-4 md:mx-0">
           
           <!-- Cart Items List (Left/Main) -->
           <div class="flex-grow p-8 md:p-12 overflow-y-auto custom-scrollbar bg-slate-50">
-            <div class="flex justify-between items-center mb-10">
+            <div class="flex justify-between items-center mb-6">
               <h3 class="text-3xl font-black text-slate-900">Tu Carrito</h3>
               <button @click="showMobileCart = false" class="text-slate-400 hover:text-slate-900 flex items-center gap-2 font-bold uppercase tracking-widest text-xs">
                 <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                Minimizar
+                Cerrar
               </button>
             </div>
 
-            <div v-if="cart.length === 0" class="py-20 text-center">
+            <!-- Quick Add Search -->
+            <div class="mb-10 relative">
+              <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 block">¿Olvidaste algo? Añádelo rápido:</label>
+              <div class="relative group">
+                <input 
+                  v-model="quickSearchQuery"
+                  type="text" 
+                  placeholder="Buscar producto para añadir..." 
+                  class="w-full bg-white border border-slate-200 rounded-2xl py-4 px-12 shadow-sm focus:ring-2 focus:ring-orange-500 outline-none transition-all"
+                />
+                <svg class="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+              </div>
+
+              <!-- Quick Results Dropdown -->
+              <div v-if="quickSearchQuery && quickSearchResults.length > 0" 
+                   class="absolute left-0 right-0 mt-2 bg-white rounded-2xl shadow-2xl border border-slate-100 z-50 overflow-hidden animate-slide-up max-h-[300px] overflow-y-auto custom-scrollbar-sidebar">
+                <div v-for="p in quickSearchResults" :key="p.id" 
+                     @click="quickAdd(p)"
+                     class="p-4 flex items-center gap-4 hover:bg-orange-50 cursor-pointer transition-colors border-b border-slate-50 last:border-0">
+                  <img :src="p.image" class="w-12 h-12 object-cover rounded-lg border border-slate-100" />
+                  <div class="flex-grow text-left">
+                    <p class="text-sm font-bold text-slate-900 leading-tight">{{ p.name }}</p>
+                    <p class="text-xs text-orange-600 font-black">${{ p.prices[selectedCity].toFixed(2) }}</p>
+                  </div>
+                  <div class="w-8 h-8 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                  </div>
+                </div>
+              </div>
+              <div v-else-if="quickSearchQuery" class="absolute left-0 right-0 mt-2 bg-white p-4 rounded-2xl shadow-xl border border-slate-100 z-50 text-center text-xs text-slate-400 italic">
+                No se encontraron resultados
+              </div>
+            </div>
+
+            <div v-if="cart.length === 0" class="py-20 text-center bg-white rounded-3xl border border-dashed border-slate-200">
+              <svg class="w-12 h-12 text-slate-200 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
               <p class="text-slate-400 italic">Tu carrito está vacío.</p>
             </div>
 
-            <div v-else class="space-y-8">
-            <div v-for="item in cart" :key="item.id" class="grid grid-cols-1 md:grid-cols-[auto_1fr_auto] gap-6 pb-8 border-b border-slate-200 last:border-0 items-center">
-              <img :src="item.image" class="w-20 h-20 object-cover rounded-2xl border border-slate-200 mx-auto md:mx-0" />
-              
-              <div class="text-center md:text-left px-2">
-                <p class="font-black text-slate-900 text-lg leading-tight">{{ item.name }}</p>
-                <p class="text-xs text-slate-400 mt-1">Ref: {{ item.id }} | Un: ${{ item.prices[selectedCity].toFixed(2) }}</p>
+            <div v-else class="flex flex-col gap-6">
+              <!-- Header Tabla -->
+              <div class="hidden md:flex items-center gap-6 pb-6 border-b border-slate-200 text-[10px] font-black uppercase tracking-widest text-slate-400 px-2">
+                <div class="w-24">Producto</div>
+                <div class="flex-grow">Descripción</div>
+                <div class="w-32 text-center">Cantidad</div>
+                <div class="w-32 text-right">Subtotal</div>
+                <div class="w-10"></div>
               </div>
-              
-              <div class="flex items-center justify-between md:justify-end gap-4 md:gap-8 bg-white/50 md:bg-transparent p-4 md:p-0 rounded-2xl">
-                <!-- Cantidad -->
-                <div class="flex items-center gap-3 bg-white border border-slate-200 rounded-xl p-1 shadow-sm">
-                  <button @click="removeFromCart(item.id)" class="w-8 h-8 flex items-center justify-center hover:bg-slate-50 rounded-lg transition-all text-xl text-slate-400">-</button>
-                  <div class="min-w-[40px] text-center">
-                    <input v-if="isDecimalProduct(item)" 
-                          type="number" v-model.number="item.quantity" step="0.1" min="0.1"
-                          class="w-12 bg-transparent text-center font-black text-sm outline-none" />
-                    <span v-else class="font-black text-slate-900 text-sm">{{ item.quantity }}</span>
+                <!-- Item List -->
+              <div v-for="item in cart" :key="item.id" 
+                   class="bg-white md:bg-transparent rounded-[2rem] md:rounded-none p-5 md:p-6 md:border-b md:border-slate-100 last:border-0 shadow-sm md:shadow-none flex flex-col md:flex-row md:items-center md:gap-6">                <div class="flex flex-col md:flex-row md:items-center gap-4 md:gap-6 w-full">
+                  <!-- Imagen e Info -->
+                  <div class="flex items-center gap-4 flex-grow min-w-0">
+                    <img :src="item.image" class="w-20 h-20 md:w-24 md:h-24 object-cover rounded-2xl border border-slate-100 shadow-sm flex-shrink-0" />
+                    <div class="flex-grow min-w-0">
+                      <p class="font-black text-slate-900 text-sm md:text-base leading-tight truncate">{{ item.name }}</p>
+                      <p class="text-[10px] md:text-[11px] font-bold text-blue-600 mt-1 tracking-wider">
+                        $ {{ item.prices[selectedCity].toFixed(2) }} <span class="text-slate-400 font-medium">/ unidad</span>
+                      </p>
+                    </div>
+                    <!-- Papelera Móvil -->
+                    <button @click="deleteFromCart(item.id)" class="md:hidden w-10 h-10 flex items-center justify-center bg-red-50 text-red-500 rounded-xl">
+                      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                    </button>
                   </div>
-                  <button @click="addToCart(item)" class="w-8 h-8 flex items-center justify-center hover:bg-slate-50 rounded-lg transition-all text-xl text-slate-400">+</button>
-                </div>
 
-                <!-- Precio Total Item -->
-                <div class="min-w-[100px] text-right">
-                  <span class="font-black text-blue-900 text-xl">${{ (item.quantity * item.prices[selectedCity]).toFixed(2) }}</span>
-                </div>
+                  <!-- Cantidad y Subtotal -->
+                  <div class="flex items-center justify-between md:gap-8">
+                    <!-- Selector Cantidad -->
+                    <div class="w-32 flex-shrink-0">
+                      <div class="flex items-center gap-1 bg-slate-50 border border-slate-200 rounded-xl p-1 shadow-inner h-11">
+                        <button @click="removeFromCart(item.id)" class="w-9 h-full flex items-center justify-center text-slate-400 hover:text-orange-500 text-xl font-bold transition-colors">-</button>
+                        <div class="flex-grow text-center font-black text-slate-900 text-sm">
+                          {{ isDecimalProduct(item) ? item.quantity.toFixed(2) : item.quantity }}
+                        </div>
+                        <button @click="addToCart(item)" class="w-9 h-full flex items-center justify-center text-slate-400 hover:text-orange-500 text-xl font-bold transition-colors">+</button>
+                      </div>
+                    </div>
 
-                <!-- Borrar -->
-                <button @click="deleteFromCart(item.id)" class="text-slate-300 hover:text-red-500 transition-colors p-2">
-                  <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                </button>
+                    <!-- Subtotal -->
+                    <div class="text-right min-w-[100px] md:w-32">
+                      <span class="md:hidden text-[9px] font-black uppercase text-slate-400 block mb-0.5 tracking-widest">Subtotal</span>
+                      <p class="font-black text-slate-900 text-xl md:text-lg tracking-tighter">
+                        $ {{ (item.quantity * item.prices[selectedCity]).toFixed(2) }}
+                      </p>
+                    </div>
+
+                    <!-- Papelera Desktop -->
+                    <div class="hidden md:block w-10">
+                      <button @click="deleteFromCart(item.id)" class="text-slate-300 hover:text-red-500 transition-colors">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
             </div>
           </div>
 
           <!-- Order Summary & Checkout (Right Sidebar in Modal) -->
-          <div class="w-full md:w-[400px] bg-slate-900 p-8 md:p-12 text-white flex flex-col overflow-y-auto custom-scrollbar">
-            <div class="space-y-8 flex-grow">
-              <h4 class="text-xl font-black uppercase tracking-widest text-orange-500">Resumen del Pedido</h4>
+          <div class="w-full md:w-[450px] bg-slate-900 p-8 md:p-12 text-white flex flex-col overflow-y-auto custom-scrollbar border-l border-white/5">
+            <div class="space-y-10 flex-grow">
+              <div class="flex justify-between items-center">
+                <h4 class="text-xl font-black uppercase tracking-widest text-orange-500">Resumen del Pedido</h4>
+                <button @click="clearCart" class="text-[10px] font-black uppercase tracking-widest text-red-400/60 hover:text-red-400 transition-colors">Vaciar Carrito</button>
+              </div>
               
               <!-- Customer Form -->
-              <div class="space-y-6">
-                <div class="space-y-2">
-                  <label class="text-[10px] font-black uppercase tracking-widest text-slate-400">Nombre del Cliente</label>
-                  <input v-model="customerName" type="text" placeholder="Ej: Juan Pérez" 
-                        class="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-5 text-white focus:ring-2 focus:ring-orange-500 outline-none" />
+              <div class="space-y-8">
+                <div class="space-y-3">
+                  <label class="text-[10px] font-black uppercase tracking-widest text-slate-500 flex justify-between items-center">
+                    <span>Nombre del Cliente</span>
+                    <span v-if="!customerName" class="text-orange-500/50 text-[8px]">Requerido</span>
+                  </label>
+                  <div class="relative group">
+                    <input v-model="customerName" type="text" placeholder="Ej: Juan Pérez" 
+                          class="w-full bg-white/5 border border-white/10 rounded-2xl py-5 px-6 text-white focus:ring-2 focus:ring-orange-500 outline-none transition-all group-hover:border-white/20" />
+                    <svg class="w-5 h-5 text-white/20 absolute right-6 top-1/2 -translate-y-1/2 group-focus-within:text-orange-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                  </div>
                 </div>
-                <div class="space-y-2">
-                  <label class="text-[10px] font-black uppercase tracking-widest text-slate-400">Sede para el Pedido</label>
-                  <select v-model="selectedCity" 
-                          class="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-5 text-white focus:ring-2 focus:ring-orange-500 outline-none cursor-pointer">
-                    <option value="Táchira" class="text-slate-900">San Cristóbal (Táchira)</option>
-                    <option value="Caracas" class="text-slate-900">Caracas</option>
-                    <option value="Barinas" class="text-slate-900">Barinas</option>
-                    <option value="Nacional / Otros" class="text-slate-900">Otras Ciudades / Nacional</option>
-                  </select>
+                <div class="space-y-3">
+                  <label class="text-[10px] font-black uppercase tracking-widest text-slate-500">Sede para el Pedido</label>
+                  <div class="relative group">
+                    <select v-model="selectedCity" 
+                            class="w-full bg-white/5 border border-white/10 rounded-2xl py-5 px-6 text-white focus:ring-2 focus:ring-orange-500 outline-none cursor-pointer appearance-none transition-all group-hover:border-white/20">
+                      <option value="Táchira" class="text-slate-900">San Cristóbal (Táchira)</option>
+                      <option value="Caracas" class="text-slate-900">Caracas</option>
+                      <option value="Barinas" class="text-slate-900">Barinas</option>
+                      <option value="Nacional / Otros" class="text-slate-900">Otras Ciudades / Nacional</option>
+                    </select>
+                    <svg class="w-5 h-5 text-white/20 absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none group-focus-within:text-orange-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                  </div>
                 </div>
               </div>
 
             <!-- Totals & Button -->
-            <div class="mt-10 pt-8 border-t border-white/20 space-y-6">
-              <div class="space-y-4">
-                <div class="flex justify-between items-center text-slate-400">
-                  <span>Subtotal:</span>
-                  <span class="font-bold text-white">${{ cartTotal.toFixed(2) }}</span>
+            <div class="mt-12 pt-10 border-t border-white/10 space-y-8">
+              <div class="space-y-5">
+                <div class="flex justify-between items-center text-slate-400 text-sm">
+                  <span class="font-medium">Subtotal de productos:</span>
+                  <span class="font-bold text-white text-lg">${{ cartTotal.toFixed(2) }}</span>
                 </div>
-                <div class="flex justify-between items-center text-slate-400">
-                  <span>IVA (16%):</span>
-                  <span class="font-bold text-white">${{ cartIVA.toFixed(2) }}</span>
+                <div class="flex justify-between items-center text-slate-400 text-sm">
+                  <span class="font-medium">IVA (16%):</span>
+                  <span class="font-bold text-white text-lg">${{ cartIVA.toFixed(2) }}</span>
                 </div>
-                <div class="flex justify-between items-center pt-6 border-t border-white/20">
-                  <span class="text-xl font-black uppercase tracking-tighter text-white">Total Final:</span>
-                  <span class="text-4xl font-black text-orange-500">${{ cartGrandTotal.toFixed(2) }}</span>
+                <div class="flex flex-col gap-2 pt-8 border-t border-white/20">
+                  <div class="flex justify-between items-end">
+                    <span class="text-xs font-black uppercase tracking-[0.2em] text-slate-500">Monto Total Estimado</span>
+                    <span class="text-5xl font-black text-orange-500 tracking-tighter">${{ cartGrandTotal.toFixed(2) }}</span>
+                  </div>
                 </div>
               </div>
 
               <button @click="checkoutWhatsApp" :disabled="cart.length === 0"
-                      class="w-full py-6 bg-orange-500 text-white font-black rounded-[2rem] hover:bg-orange-600 transition-all shadow-xl shadow-orange-500/20 flex items-center justify-center gap-4 disabled:opacity-50">
-                Hacer Pedido vía WhatsApp
-                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.025 3.334l-.639 2.336 2.395-.627c1.012.554 2.112.847 3.013.847l.001-.001c3.181 0 5.769-2.587 5.77-5.768 0-3.181-2.588-5.787-5.797-5.787zm3.844 8.805c-.157.443-.913.848-1.258.896-.345.048-.689.048-1.121-.097-.281-.097-.615-.224-1.12-.423-2.008-.79-3.328-2.827-3.428-2.96-.101-.133-.808-1.077-.808-2.052 0-.974.506-1.455.688-1.657.182-.202.396-.253.528-.253.133 0 .265.001.381.006.116.006.273-.044.428.329.157.373.532 1.298.579 1.398.047.101.079.219.012.355-.067.136-.101.219-.202.339-.101.119-.214.269-.304.37-.101.114-.206.239-.089.439.117.2.521.859 1.121 1.393.771.688 1.419.902 1.621 1.002.201.101.319.084.439-.05.12-.134.521-.607.659-.813.137-.206.274-.173.463-.105.188.068 1.196.564 1.401.666.206.101.343.151.394.24.051.088.051.513-.106.956z"/></svg>
+                      class="w-full py-7 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-black rounded-[2.5rem] hover:scale-[1.02] active:scale-95 transition-all shadow-2xl shadow-orange-500/30 flex items-center justify-center gap-4 disabled:opacity-50 disabled:scale-100 disabled:shadow-none">
+                <span class="text-lg">Realizar Pedido vía WhatsApp</span>
+                <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.025 3.334l-.639 2.336 2.395-.627c1.012.554 2.112.847 3.013.847l.001-.001c3.181 0 5.769-2.587 5.77-5.768 0-3.181-2.588-5.787-5.797-5.787zm3.844 8.805c-.157.443-.913.848-1.258.896-.345.048-.689.048-1.121-.097-.281-.097-.615-.224-1.12-.423-2.008-.79-3.328-2.827-3.428-2.96-.101-.133-.808-1.077-.808-2.052 0-.974.506-1.455.688-1.657.182-.202.396-.253.528-.253.133 0 .265.001.381.006.116.006.273-.044.428.329.157.373.532 1.298.579 1.398.047.101.079.219.012.355-.067.136-.101.219-.202.339-.101.119-.214.269-.304.37-.101.114-.206.239-.089.439.117.2.521.859 1.121 1.393.771.688 1.419.902 1.621 1.002.201.101.319.084.439-.05.12-.134.521-.607.659-.813.137-.206.274-.173.463-.105.188.068 1.196.564 1.401.666.206.101.343.151.394.24.051.088.051.513-.106.956z"/></svg>
               </button>
+              <p class="text-center text-[10px] text-slate-500 uppercase tracking-widest font-bold">Respuesta inmediata en horario comercial</p>
             </div>
           </div>
         </div>
@@ -370,7 +474,8 @@ const products = productsData.map(product => {
   return { ...product, image: img };
 });
 const searchQuery = ref('');
-const displayLimit = ref(24);
+const currentPage = ref(1);
+const itemsPerPage = ref(6);
 
 const filteredProducts = computed(() => {
   let result = products;
@@ -390,13 +495,53 @@ const filteredProducts = computed(() => {
   return result;
 });
 
+const totalPages = computed(() => Math.ceil(filteredProducts.value.length / itemsPerPage.value));
+
 const displayedProducts = computed(() => {
-  return filteredProducts.value.slice(0, displayLimit.value);
+  const start = (currentPage.value - 1) * itemsPerPage.value;
+  return filteredProducts.value.slice(start, start + itemsPerPage.value);
 });
 
-const loadMore = () => {
-  displayLimit.value += 24;
+const quickSearchQuery = ref('');
+const quickSearchResults = computed(() => {
+  if (!quickSearchQuery.value) return [];
+  const q = quickSearchQuery.value.toLowerCase();
+  return products.filter(p => 
+    p.name.toLowerCase().includes(q) || 
+    p.id.toLowerCase().includes(q)
+  ).slice(0, 5);
+});
+
+const quickAdd = (product) => {
+  addToCart(product);
+  quickSearchQuery.value = '';
 };
+
+const visiblePages = computed(() => {
+  const range = [];
+  const start = Math.max(1, currentPage.value - 2);
+  const end = Math.min(totalPages.value, start + 4);
+  for (let i = start; i <= end; i++) range.push(i);
+  return range;
+});
+
+const prevPage = () => {
+  if (currentPage.value > 1) {
+    currentPage.value--;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+};
+
+const nextPage = () => {
+  if (currentPage.value < totalPages.value) {
+    currentPage.value++;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+};
+
+watch([activeCategory, searchQuery], () => {
+  currentPage.value = 1;
+});
 
 const isDecimalProduct = (product) => {
   const nameUpper = product.name.toUpperCase();
@@ -424,7 +569,7 @@ const addToCart = (product) => {
   const step = isDecimalProduct(product) ? 0.1 : 1;
   
   if (existing) {
-    existing.quantity += step;
+    existing.quantity = Math.round((existing.quantity + step) * 100) / 100;
   } else {
     cart.push({ ...product, quantity: 1 });
   }
@@ -435,11 +580,17 @@ const removeFromCart = (productId) => {
   if (index !== -1) {
     const step = isDecimalProduct(cart[index]) ? 0.1 : 1;
     if (cart[index].quantity > step) {
-      cart[index].quantity -= step;
+      cart[index].quantity = Math.round((cart[index].quantity - step) * 100) / 100;
     } else {
       cart.splice(index, 1);
     }
   }
+};
+
+const clearCart = () => {
+  // Eliminamos el confirm() del navegador por si acaso está bloqueado
+  cart.splice(0, cart.length);
+  quickSearchQuery.value = '';
 };
 
 const deleteFromCart = (productId) => {
@@ -450,15 +601,17 @@ const deleteFromCart = (productId) => {
 };
 
 const cartTotal = computed(() => {
-  return cart.reduce((total, item) => total + (item.prices[selectedCity.value] * item.quantity), 0);
+  const total = cart.reduce((total, item) => total + (item.prices[selectedCity.value] * item.quantity), 0);
+  return Math.round(total * 100) / 100;
 });
 
 const cartIVA = computed(() => {
-  return cartTotal.value * 0.16;
+  const iva = cartTotal.value * 0.16;
+  return Math.round(iva * 100) / 100;
 });
 
 const cartGrandTotal = computed(() => {
-  return cartTotal.value + cartIVA.value;
+  return Math.round((cartTotal.value + cartIVA.value) * 100) / 100;
 });
 
 const checkoutWhatsApp = () => {
