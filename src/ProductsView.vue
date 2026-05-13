@@ -178,15 +178,22 @@
         
         <div class="relative w-full max-w-7xl bg-white rounded-none md:rounded-[3rem] shadow-2xl overflow-hidden flex flex-col md:flex-row h-full md:h-[90vh] max-h-screen md:max-h-[900px] animate-slide-up">
           
-          <!-- Cart Items List (Left/Main) -->
-          <div class="flex-grow p-6 md:p-12 overflow-y-auto custom-scrollbar bg-slate-50 relative">
-            <!-- Mobile Header Sticky -->
-            <div class="md:hidden sticky top-0 bg-slate-50/80 backdrop-blur-md z-10 -mx-6 px-6 py-4 border-b border-slate-200 flex justify-between items-center mb-6">
-               <h3 class="text-xl font-black text-slate-900 tracking-tight">Tu Pedido</h3>
-               <button @click="showMobileCart = false" class="bg-white p-2 rounded-full shadow-sm text-slate-400">
-                  <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-               </button>
-            </div>
+          <!-- MOBILE HEADER (Fixed) -->
+          <div class="md:hidden flex items-center justify-between px-6 py-5 border-b border-slate-100 bg-white z-[140]">
+             <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center text-white font-black text-xs">MV</div>
+                <h3 class="font-black text-slate-900 uppercase tracking-tight">Finalizar Pedido</h3>
+             </div>
+             <button @click="showMobileCart = false" class="w-10 h-10 flex items-center justify-center bg-slate-50 text-slate-400 rounded-full active:scale-90 transition-transform">
+                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+             </button>
+          </div>
+
+          <!-- Main Scrollable Area -->
+          <div class="flex-grow flex flex-col md:flex-row overflow-hidden h-full">
+            
+            <!-- Cart Items List (Left/Main) -->
+            <div class="flex-grow p-6 md:p-12 overflow-y-auto custom-scrollbar bg-slate-50">
 
             <div class="flex justify-between items-end mb-10 hidden md:flex">
               <div>
@@ -245,7 +252,13 @@
             </div>
 
             <div v-else class="flex flex-col gap-5 md:gap-8">
-              <!-- Header Tabla -->
+              <!-- Add More Button (Mobile) -->
+              <button @click="showMobileCart = false" class="md:hidden w-full py-4 border-2 border-dashed border-slate-200 rounded-2xl flex items-center justify-center gap-3 text-slate-400 font-bold text-sm hover:bg-slate-100 transition-colors mb-2">
+                 <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                 Añadir más productos
+              </button>
+
+              <!-- Header Tabla Desktop -->
               <div class="hidden md:flex items-center gap-6 pb-6 border-b border-slate-200 text-[10px] font-black uppercase tracking-widest text-slate-400 px-2">
                 <div class="w-24">Producto</div>
                 <div class="flex-grow">Descripción</div>
@@ -368,23 +381,24 @@
               <p class="hidden md:block text-center text-[10px] text-slate-500 uppercase tracking-widest font-bold">Respuesta inmediata en horario comercial</p>
             </div>
           </div>
+        </div>
 
           <!-- STICKY MOBILE FOOTER -->
-          <div class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 p-6 z-[130] shadow-[0_-15px_40px_rgba(0,0,0,0.1)] flex flex-col gap-4">
-             <div class="flex justify-between items-center">
+          <div class="md:hidden bg-white border-t border-slate-100 p-6 shadow-[0_-20px_50px_rgba(0,0,0,0.08)] z-[140]">
+             <div class="flex justify-between items-center mb-5">
                 <div>
-                   <span class="text-[9px] font-black uppercase text-slate-400 tracking-widest block mb-0.5">Total Estimado</span>
-                   <span class="text-3xl font-black text-slate-900 tracking-tighter">${{ cartGrandTotal.toFixed(2) }}</span>
+                   <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-1">Total a Pagar</p>
+                   <p class="text-3xl font-black text-slate-900 tracking-tight">${{ cartGrandTotal.toFixed(2) }}</p>
                 </div>
                 <div class="text-right">
-                   <span class="text-[9px] font-black uppercase text-slate-400 tracking-widest block mb-0.5">Items</span>
-                   <span class="text-xl font-black text-blue-600">{{ cart.length }}</span>
+                   <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-1">Productos</p>
+                   <p class="text-xl font-black text-blue-600">{{ cart.length }}</p>
                 </div>
              </div>
              <button @click="checkoutWhatsApp" :disabled="cart.length === 0"
-                     class="w-full py-5 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-black rounded-2xl flex items-center justify-center gap-3 shadow-xl shadow-orange-500/20 active:scale-95 transition-all">
-                <span>Realizar Pedido WhatsApp</span>
-                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.025 3.334l-.639 2.336 2.395-.627c1.012.554 2.112.847 3.013.847l.001-.001c3.181 0 5.769-2.587 5.77-5.768 0-3.181-2.588-5.787-5.797-5.787zm3.844 8.805c-.157.443-.913.848-1.258.896-.345.048-.689.048-1.121-.097-.281-.097-.615-.224-1.12-.423-2.008-.79-3.328-2.827-3.428-2.96-.101-.133-.808-1.077-.808-2.052 0-.974.506-1.455.688-1.657.182-.202.396-.253.528-.253.133 0 .265.001.381.006.116.006.273-.044.428.329.157.373.532 1.298.579 1.398.047.101.079.219.012.355-.067.136-.101.219-.202.339-.101.119-.214.269-.304.37-.101.114-.206.239-.089.439.117.2.521.859 1.121 1.393.771.688 1.419.902 1.621 1.002.201.101.319.084.439-.05.12-.134.521-.607.659-.813.137-.206.274-.173.463-.105.188.068 1.196.564 1.401.666.206.101.343.151.394.24.051.088.051.513-.106.956z"/></svg>
+                     class="w-full py-5 bg-slate-900 text-white font-black rounded-2xl flex items-center justify-center gap-4 shadow-xl active:scale-95 transition-all">
+                <span class="text-base uppercase tracking-widest">Enviar Pedido</span>
+                <svg class="w-6 h-6 text-orange-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.025 3.334l-.639 2.336 2.395-.627c1.012.554 2.112.847 3.013.847l.001-.001c3.181 0 5.769-2.587 5.77-5.768 0-3.181-2.588-5.787-5.797-5.787zm3.844 8.805c-.157.443-.913.848-1.258.896-.345.048-.689.048-1.121-.097-.281-.097-.615-.224-1.12-.423-2.008-.79-3.328-2.827-3.428-2.96-.101-.133-.808-1.077-.808-2.052 0-.974.506-1.455.688-1.657.182-.202.396-.253.528-.253.133 0 .265.001.381.006.116.006.273-.044.428.329.157.373.532 1.298.579 1.398.047.101.079.219.012.355-.067.136-.101.219-.202.339-.101.119-.214.269-.304.37-.101.114-.206.239-.089.439.117.2.521.859 1.121 1.393.771.688 1.419.902 1.621 1.002.201.101.319.084.439-.05.12-.134.521-.607.659-.813.137-.206.274-.173.463-.105.188.068 1.196.564 1.401.666.206.101.343.151.394.24.051.088.051.513-.106.956z"/></svg>
              </button>
           </div>
         </div>
