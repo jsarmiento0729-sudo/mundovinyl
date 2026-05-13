@@ -266,40 +266,42 @@
 
                 <!-- Item List -->
               <div v-for="item in cart" :key="item.id" 
-                   class="bg-white md:bg-transparent rounded-xl md:rounded-none p-3 md:p-6 border border-slate-100 md:border-0 md:border-b md:border-slate-100 last:border-0 flex flex-col md:flex-row md:items-center md:gap-6 transition-all">
-                <div class="flex flex-col md:flex-row md:items-center gap-3 md:gap-6 w-full">
+                   class="bg-white md:bg-transparent rounded-2xl md:rounded-none p-4 md:p-6 border border-slate-100 md:border-0 md:border-b md:border-slate-100 last:border-0 flex flex-col md:flex-row md:items-center md:gap-6 transition-all shadow-sm md:shadow-none mb-3 md:mb-0">
+                <div class="flex flex-col md:flex-row md:items-center gap-4 md:gap-6 w-full">
                   <!-- Imagen e Info -->
-                  <div class="flex items-center gap-3 flex-grow min-w-0">
-                    <img :src="item.image" class="w-14 h-14 md:w-24 md:h-24 object-cover rounded-lg border border-slate-100 shadow-sm flex-shrink-0" />
-                    <div class="min-w-0">
-                      <h4 class="font-bold text-slate-900 text-sm md:text-lg truncate leading-tight">{{ item.name }}</h4>
-                      <p class="text-[10px] md:text-xs text-slate-400 font-medium truncate">Cod: {{ item.id }}</p>
+                  <div class="flex items-start gap-4 flex-grow min-w-0">
+                    <img :src="item.image" class="w-20 h-20 md:w-24 md:h-24 object-cover rounded-xl border border-slate-100 shadow-sm flex-shrink-0" />
+                    <div class="min-w-0 flex-grow">
+                      <h4 class="font-bold text-slate-900 text-base md:text-lg truncate leading-tight">{{ item.name }}</h4>
+                      <p class="text-xs text-slate-500 mt-1 line-clamp-2 md:line-clamp-none leading-relaxed">{{ item.description }}</p>
+                      <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1.5">Cod: {{ item.id }}</p>
                     </div>
                   </div>
 
                   <!-- Cantidad y Subtotal -->
-                  <div class="flex items-center justify-between md:gap-8">
+                  <div class="flex items-center justify-between md:justify-end md:gap-8 pt-3 md:pt-0 border-t md:border-0 border-slate-50">
                     <!-- Selector Cantidad -->
-                    <div class="w-28 md:w-32 flex-shrink-0">
-                      <div class="flex items-center gap-1 bg-slate-50 border border-slate-200 rounded-lg p-0.5 h-9 md:h-11">
-                        <button @click="removeFromCart(item.id)" class="w-8 h-full flex items-center justify-center text-slate-400 hover:text-orange-500 text-lg font-bold">-</button>
-                        <div class="flex-grow text-center font-bold text-slate-900 text-xs md:text-sm">
+                    <div class="w-32 md:w-36 flex-shrink-0">
+                      <div class="flex items-center gap-1 bg-slate-100/50 md:bg-slate-50 border border-slate-200 rounded-xl p-1 h-10 md:h-12">
+                        <button @click="removeFromCart(item.id)" class="w-10 h-full flex items-center justify-center text-slate-500 hover:text-orange-500 text-xl font-bold transition-colors">-</button>
+                        <div class="flex-grow text-center font-black text-slate-900 text-sm md:text-base">
                           {{ isDecimalProduct(item) ? item.quantity.toFixed(2) : item.quantity }}
                         </div>
-                        <button @click="addToCart(item)" class="w-8 h-full flex items-center justify-center text-slate-400 hover:text-orange-500 text-lg font-bold">+</button>
+                        <button @click="addToCart(item)" class="w-10 h-full flex items-center justify-center text-slate-500 hover:text-orange-500 text-xl font-bold transition-colors">+</button>
                       </div>
                     </div>
 
                     <!-- Subtotal -->
-                    <div class="text-right min-w-[80px] md:w-32">
-                      <p class="font-bold text-slate-900 text-base md:text-lg tracking-tight">
+                    <div class="text-right min-w-[100px] md:w-32">
+                      <p class="text-[10px] font-bold uppercase text-slate-400 md:hidden mb-0.5">Subtotal</p>
+                      <p class="font-black text-blue-900 text-lg md:text-xl tracking-tight">
                         $ {{ (item.quantity * item.prices[selectedCity]).toFixed(2) }}
                       </p>
                     </div>
 
                     <!-- Borrado (Mobile - Trash Icon inside card) -->
-                    <button @click="deleteFromCart(item.id)" class="md:hidden ml-2 text-slate-300">
-                       <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                    <button @click="deleteFromCart(item.id)" class="md:hidden ml-4 p-2 text-slate-300 hover:text-red-500 bg-slate-50 rounded-lg transition-colors">
+                       <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                     </button>
 
                     <!-- Papelera Desktop -->
@@ -691,7 +693,9 @@ const checkoutWhatsApp = () => {
   
   cart.forEach(item => {
     const itemPrice = item.prices[selectedCity.value];
-    message += `✅ ${item.quantity} x ${item.name} - $${(item.quantity * itemPrice).toFixed(2)}\n`;
+    message += `✅ *${item.quantity} x ${item.name}*\n`;
+    message += `   _${item.description}_\n`;
+    message += `   Subtotal: $${(item.quantity * itemPrice).toFixed(2)}\n\n`;
   });
   
   message += `\n--------------------------\n`;
