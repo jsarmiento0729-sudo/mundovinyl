@@ -31,10 +31,7 @@
         </div>
       </div>
 
-      <!-- Scroll indicator -->
-      <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce hidden md:block">
-        <div class="w-px h-16 bg-gradient-to-b from-orange-500 to-transparent"></div>
-      </div>
+
     </section>
 
     <!-- STATS BAR -->
