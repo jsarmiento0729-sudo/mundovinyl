@@ -173,18 +173,31 @@
       </div>
 
       <!-- CART OVERLAY MODAL (ALL DEVICES) -->
-      <div v-if="showMobileCart" class="fixed inset-0 z-[120] flex items-center justify-center p-4 md:p-12">
-        <div class="absolute inset-0 bg-slate-950/80 backdrop-blur-md" @click="showMobileCart = false"></div>
+      <div v-if="showMobileCart" class="fixed inset-0 z-[120] flex items-center justify-center p-0 md:p-12">
+        <div class="absolute inset-0 bg-slate-950/80 backdrop-blur-md hidden md:block" @click="showMobileCart = false"></div>
         
-        <div class="relative w-full max-w-7xl bg-white rounded-[3rem] shadow-2xl overflow-hidden flex flex-col md:flex-row h-full md:h-[90vh] max-h-screen md:max-h-[900px] animate-slide-up mx-4 md:mx-0">
+        <div class="relative w-full max-w-7xl bg-white rounded-none md:rounded-[3rem] shadow-2xl overflow-hidden flex flex-col md:flex-row h-full md:h-[90vh] max-h-screen md:max-h-[900px] animate-slide-up">
           
           <!-- Cart Items List (Left/Main) -->
-          <div class="flex-grow p-8 md:p-12 overflow-y-auto custom-scrollbar bg-slate-50">
-            <div class="flex justify-between items-center mb-6">
-              <h3 class="text-3xl font-black text-slate-900">Tu Carrito</h3>
-              <button @click="showMobileCart = false" class="text-slate-400 hover:text-slate-900 flex items-center gap-2 font-bold uppercase tracking-widest text-xs">
-                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                Cerrar
+          <div class="flex-grow p-6 md:p-12 overflow-y-auto custom-scrollbar bg-slate-50 relative">
+            <!-- Mobile Header Sticky -->
+            <div class="md:hidden sticky top-0 bg-slate-50/80 backdrop-blur-md z-10 -mx-6 px-6 py-4 border-b border-slate-200 flex justify-between items-center mb-6">
+               <h3 class="text-xl font-black text-slate-900 tracking-tight">Tu Pedido</h3>
+               <button @click="showMobileCart = false" class="bg-white p-2 rounded-full shadow-sm text-slate-400">
+                  <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+               </button>
+            </div>
+
+            <div class="flex justify-between items-end mb-10 hidden md:flex">
+              <div>
+                <h3 class="text-4xl font-black text-slate-900 tracking-tight mb-2">Tu Carrito</h3>
+                <p class="text-slate-400 font-bold uppercase tracking-widest text-[10px]">Gestiona tus productos antes de finalizar</p>
+              </div>
+              <button @click="showMobileCart = false" class="group flex items-center gap-3 text-slate-400 hover:text-slate-600 transition-all">
+                <span class="text-[10px] font-black uppercase tracking-[0.2em]">Cerrar</span>
+                <div class="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center group-hover:rotate-90 transition-transform">
+                  <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </div>
               </button>
             </div>
 
@@ -222,12 +235,16 @@
               </div>
             </div>
 
-            <div v-if="cart.length === 0" class="py-20 text-center bg-white rounded-3xl border border-dashed border-slate-200">
-              <svg class="w-12 h-12 text-slate-200 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
-              <p class="text-slate-400 italic">Tu carrito está vacío.</p>
+            <div v-if="cart.length === 0" class="py-24 text-center bg-white rounded-[3rem] border-2 border-dashed border-slate-100 mx-2">
+              <div class="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner">
+                <svg class="w-12 h-12 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+              </div>
+              <h4 class="text-2xl font-black text-slate-900 mb-2">Tu carrito está vacío</h4>
+              <p class="text-slate-400 font-medium px-10">Explora nuestro catálogo y añade los mejores vinilos a tu pedido.</p>
+              <button @click="showMobileCart = false" class="mt-8 px-8 py-4 bg-slate-900 text-white rounded-2xl font-black text-sm uppercase tracking-widest hover:scale-105 transition-transform shadow-xl">Ver Productos</button>
             </div>
 
-            <div v-else class="flex flex-col gap-6">
+            <div v-else class="flex flex-col gap-5 md:gap-8">
               <!-- Header Tabla -->
               <div class="hidden md:flex items-center gap-6 pb-6 border-b border-slate-200 text-[10px] font-black uppercase tracking-widest text-slate-400 px-2">
                 <div class="w-24">Producto</div>
@@ -238,7 +255,8 @@
               </div>
                 <!-- Item List -->
               <div v-for="item in cart" :key="item.id" 
-                   class="bg-white md:bg-transparent rounded-[2rem] md:rounded-none p-5 md:p-6 md:border-b md:border-slate-100 last:border-0 shadow-sm md:shadow-none flex flex-col md:flex-row md:items-center md:gap-6">                <div class="flex flex-col md:flex-row md:items-center gap-4 md:gap-6 w-full">
+                   class="bg-white md:bg-transparent rounded-3xl md:rounded-none p-5 md:p-6 border border-slate-100 md:border-0 md:border-b md:border-slate-100 last:border-0 shadow-sm md:shadow-none flex flex-col md:flex-row md:items-center md:gap-6 transition-all hover:shadow-md md:hover:shadow-none">
+                <div class="flex flex-col md:flex-row md:items-center gap-4 md:gap-6 w-full">
                   <!-- Imagen e Info -->
                   <div class="flex items-center gap-4 flex-grow min-w-0">
                     <img :src="item.image" class="w-20 h-20 md:w-24 md:h-24 object-cover rounded-2xl border border-slate-100 shadow-sm flex-shrink-0" />
@@ -324,7 +342,7 @@
               </div>
 
             <!-- Totals & Button -->
-            <div class="mt-12 pt-10 border-t border-white/10 space-y-8">
+            <div class="mt-12 pt-10 border-t border-white/10 space-y-8 pb-32 md:pb-0">
               <div class="space-y-5">
                 <div class="flex justify-between items-center text-slate-400 text-sm">
                   <span class="font-medium">Subtotal de productos:</span>
@@ -334,7 +352,7 @@
                   <span class="font-medium">IVA (16%):</span>
                   <span class="font-bold text-white text-lg">${{ cartIVA.toFixed(2) }}</span>
                 </div>
-                <div class="flex flex-col gap-2 pt-8 border-t border-white/20">
+                <div class="flex flex-col gap-2 pt-8 border-t border-white/20 hidden md:flex">
                   <div class="flex justify-between items-end">
                     <span class="text-xs font-black uppercase tracking-[0.2em] text-slate-500">Monto Total Estimado</span>
                     <span class="text-5xl font-black text-orange-500 tracking-tighter">${{ cartGrandTotal.toFixed(2) }}</span>
@@ -343,12 +361,31 @@
               </div>
 
               <button @click="checkoutWhatsApp" :disabled="cart.length === 0"
-                      class="w-full py-7 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-black rounded-[2.5rem] hover:scale-[1.02] active:scale-95 transition-all shadow-2xl shadow-orange-500/30 flex items-center justify-center gap-4 disabled:opacity-50 disabled:scale-100 disabled:shadow-none">
+                      class="hidden md:flex w-full py-7 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-black rounded-[2.5rem] hover:scale-[1.02] active:scale-95 transition-all shadow-2xl shadow-orange-500/30 items-center justify-center gap-4 disabled:opacity-50 disabled:scale-100 disabled:shadow-none">
                 <span class="text-lg">Realizar Pedido vía WhatsApp</span>
                 <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.025 3.334l-.639 2.336 2.395-.627c1.012.554 2.112.847 3.013.847l.001-.001c3.181 0 5.769-2.587 5.77-5.768 0-3.181-2.588-5.787-5.797-5.787zm3.844 8.805c-.157.443-.913.848-1.258.896-.345.048-.689.048-1.121-.097-.281-.097-.615-.224-1.12-.423-2.008-.79-3.328-2.827-3.428-2.96-.101-.133-.808-1.077-.808-2.052 0-.974.506-1.455.688-1.657.182-.202.396-.253.528-.253.133 0 .265.001.381.006.116.006.273-.044.428.329.157.373.532 1.298.579 1.398.047.101.079.219.012.355-.067.136-.101.219-.202.339-.101.119-.214.269-.304.37-.101.114-.206.239-.089.439.117.2.521.859 1.121 1.393.771.688 1.419.902 1.621 1.002.201.101.319.084.439-.05.12-.134.521-.607.659-.813.137-.206.274-.173.463-.105.188.068 1.196.564 1.401.666.206.101.343.151.394.24.051.088.051.513-.106.956z"/></svg>
               </button>
-              <p class="text-center text-[10px] text-slate-500 uppercase tracking-widest font-bold">Respuesta inmediata en horario comercial</p>
+              <p class="hidden md:block text-center text-[10px] text-slate-500 uppercase tracking-widest font-bold">Respuesta inmediata en horario comercial</p>
             </div>
+          </div>
+
+          <!-- STICKY MOBILE FOOTER -->
+          <div class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 p-6 z-[130] shadow-[0_-15px_40px_rgba(0,0,0,0.1)] flex flex-col gap-4">
+             <div class="flex justify-between items-center">
+                <div>
+                   <span class="text-[9px] font-black uppercase text-slate-400 tracking-widest block mb-0.5">Total Estimado</span>
+                   <span class="text-3xl font-black text-slate-900 tracking-tighter">${{ cartGrandTotal.toFixed(2) }}</span>
+                </div>
+                <div class="text-right">
+                   <span class="text-[9px] font-black uppercase text-slate-400 tracking-widest block mb-0.5">Items</span>
+                   <span class="text-xl font-black text-blue-600">{{ cart.length }}</span>
+                </div>
+             </div>
+             <button @click="checkoutWhatsApp" :disabled="cart.length === 0"
+                     class="w-full py-5 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-black rounded-2xl flex items-center justify-center gap-3 shadow-xl shadow-orange-500/20 active:scale-95 transition-all">
+                <span>Realizar Pedido WhatsApp</span>
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.025 3.334l-.639 2.336 2.395-.627c1.012.554 2.112.847 3.013.847l.001-.001c3.181 0 5.769-2.587 5.77-5.768 0-3.181-2.588-5.787-5.797-5.787zm3.844 8.805c-.157.443-.913.848-1.258.896-.345.048-.689.048-1.121-.097-.281-.097-.615-.224-1.12-.423-2.008-.79-3.328-2.827-3.428-2.96-.101-.133-.808-1.077-.808-2.052 0-.974.506-1.455.688-1.657.182-.202.396-.253.528-.253.133 0 .265.001.381.006.116.006.273-.044.428.329.157.373.532 1.298.579 1.398.047.101.079.219.012.355-.067.136-.101.219-.202.339-.101.119-.214.269-.304.37-.101.114-.206.239-.089.439.117.2.521.859 1.121 1.393.771.688 1.419.902 1.621 1.002.201.101.319.084.439-.05.12-.134.521-.607.659-.813.137-.206.274-.173.463-.105.188.068 1.196.564 1.401.666.206.101.343.151.394.24.051.088.051.513-.106.956z"/></svg>
+             </button>
           </div>
         </div>
       </div>
@@ -364,6 +401,15 @@ import { globalState } from './store.js';
 const activeCategory = ref('Todos');
 const showMobileCart = ref(false);
 const cart = reactive([]);
+
+// Bloquear scroll cuando el carrito está abierto
+watch(showMobileCart, (val) => {
+  if (val) {
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.body.style.overflow = '';
+  }
+});
 
 // Usar estado global para persistencia en navegación
 const selectedCity = computed({
