@@ -314,69 +314,71 @@
                 </div>
               </div>
             </div>
+            
+            <!-- Order Summary & Checkout (Right Sidebar in Modal) -->
+            <!-- En móvil, esto aparece debajo de los productos y todo hace scroll junto -->
+            <div class="w-full md:w-[450px] bg-white md:bg-slate-900 p-6 md:p-12 flex flex-col md:border-l border-slate-100 md:border-white/5 md:overflow-y-auto custom-scrollbar flex-shrink-0">
+              <div class="space-y-6 md:space-y-10 flex-grow">
+                <div class="hidden md:flex justify-between items-center">
+                  <h4 class="text-xl font-black uppercase tracking-widest text-orange-500">Resumen</h4>
+                  <button @click="clearCart" class="text-[10px] font-black uppercase tracking-widest text-red-400/60 hover:text-red-400 transition-colors">Vaciar Carrito</button>
+                </div>
+                
+                <!-- Customer Form -->
+                <div class="space-y-4 md:space-y-8">
+                  <div class="space-y-2 md:space-y-3">
+                    <label class="text-[10px] font-bold uppercase tracking-widest text-slate-400 flex justify-between items-center">
+                      <span>Nombre del Cliente</span>
+                      <span v-if="!customerName" class="text-orange-500/50 text-[8px]">Requerido</span>
+                    </label>
+                    <div class="relative group">
+                      <input v-model="customerName" type="text" placeholder="Ej: Juan Pérez" 
+                            class="w-full bg-slate-50 md:bg-white/5 border border-slate-200 md:border-white/10 rounded-xl py-3 px-4 text-slate-900 md:text-white focus:ring-2 focus:ring-orange-500 outline-none transition-all group-hover:border-slate-300 md:group-hover:border-white/20 text-sm" />
+                    </div>
+                  </div>
+                  <div class="space-y-2 md:space-y-3">
+                    <label class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Sede para el Pedido</label>
+                    <div class="relative group">
+                      <select v-model="selectedCity" 
+                              class="w-full bg-slate-50 md:bg-white/5 border border-slate-200 md:border-white/10 rounded-xl py-3 px-4 text-slate-900 md:text-white focus:ring-2 focus:ring-orange-500 outline-none cursor-pointer appearance-none transition-all group-hover:border-slate-300 md:group-hover:border-white/20 text-sm">
+                        <option value="Táchira" class="text-slate-900">San Cristóbal (Táchira)</option>
+                        <option value="Caracas" class="text-slate-900">Caracas</option>
+                        <option value="Barinas" class="text-slate-900">Barinas</option>
+                        <option value="Nacional / Otros" class="text-slate-900">Otras Ciudades / Nacional</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Totals & Button -->
+                <div class="mt-12 pt-10 border-t border-slate-100 md:border-white/10 space-y-8 pb-32 md:pb-0">
+                  <div class="space-y-5">
+                    <div class="flex justify-between items-center text-slate-500 md:text-slate-400 text-sm">
+                      <span class="font-medium">Subtotal de productos:</span>
+                      <span class="font-bold text-slate-900 md:text-white text-lg">${{ cartTotal.toFixed(2) }}</span>
+                    </div>
+                    <div class="flex justify-between items-center text-slate-500 md:text-slate-400 text-sm">
+                      <span class="font-medium">IVA (16%):</span>
+                      <span class="font-bold text-slate-900 md:text-white text-lg">${{ cartIVA.toFixed(2) }}</span>
+                    </div>
+                    <div class="flex flex-col gap-2 pt-8 border-t border-slate-200 md:border-white/20 hidden md:flex">
+                      <div class="flex justify-between items-end">
+                        <span class="text-xs font-black uppercase tracking-[0.2em] text-slate-500">Monto Total Estimado</span>
+                        <span class="text-5xl font-black text-orange-500 tracking-tighter">${{ cartGrandTotal.toFixed(2) }}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <button @click="checkoutWhatsApp" :disabled="cart.length === 0"
+                          class="hidden md:flex w-full py-7 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-black rounded-[2.5rem] hover:scale-[1.02] active:scale-95 transition-all shadow-2xl shadow-orange-500/30 items-center justify-center gap-4 disabled:opacity-50 disabled:scale-100 disabled:shadow-none">
+                    <span class="text-lg">Realizar Pedido vía WhatsApp</span>
+                    <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.025 3.334l-.639 2.336 2.395-.627c1.012.554 2.112.847 3.013.847l.001-.001c3.181 0 5.769-2.587 5.77-5.768 0-3.181-2.588-5.787-5.797-5.787zm3.844 8.805c-.157.443-.913.848-1.258.896-.345.048-.689.048-1.121-.097-.281-.097-.615-.224-1.12-.423-2.008-.79-3.328-2.827-3.428-2.96-.101-.133-.808-1.077-.808-2.052 0-.974.506-1.455.688-1.657.182-.202.396-.253.528-.253.133 0 .265.001.381.006.116.006.273-.044.428.329.157.373.532 1.298.579 1.398.047.101.079.219.012.355-.067.136-.101.219-.202.339-.101.119-.214.269-.304.37-.101.114-.206.239-.089.439.117.2.521.859 1.121 1.393.771.688 1.419.902 1.621 1.002.201.101.319.084.439-.05.12-.134.521-.607.659-.813.137-.206.274-.173.463-.105.188.068 1.196.564 1.401.666.206.101.343.151.394.24.051.088.051.513-.106.956z"/></svg>
+                  </button>
+                  <p class="hidden md:block text-center text-[10px] text-slate-500 uppercase tracking-widest font-bold">Respuesta inmediata en horario comercial</p>
+                </div>
+              </div>
             </div>
-          </div>
 
-          <!-- Order Summary & Checkout (Right Sidebar in Modal) -->
-          <div class="w-full md:w-[450px] bg-white md:bg-slate-900 p-6 md:p-12 flex flex-col md:border-l border-slate-100 md:border-white/5 md:overflow-y-auto custom-scrollbar">
-            <div class="space-y-6 md:space-y-10 flex-grow">
-              <div class="hidden md:flex justify-between items-center">
-                <h4 class="text-xl font-black uppercase tracking-widest text-orange-500">Resumen</h4>
-                <button @click="clearCart" class="text-[10px] font-black uppercase tracking-widest text-red-400/60 hover:text-red-400 transition-colors">Vaciar Carrito</button>
-              </div>
-              
-              <!-- Customer Form -->
-              <div class="space-y-4 md:space-y-8">
-                <div class="space-y-2 md:space-y-3">
-                  <label class="text-[10px] font-bold uppercase tracking-widest text-slate-400 flex justify-between items-center">
-                    <span>Nombre del Cliente</span>
-                    <span v-if="!customerName" class="text-orange-500/50 text-[8px]">Requerido</span>
-                  </label>
-                  <div class="relative group">
-                    <input v-model="customerName" type="text" placeholder="Ej: Juan Pérez" 
-                          class="w-full bg-slate-50 md:bg-white/5 border border-slate-200 md:border-white/10 rounded-xl py-3 px-4 text-slate-900 md:text-white focus:ring-2 focus:ring-orange-500 outline-none transition-all group-hover:border-slate-300 md:group-hover:border-white/20 text-sm" />
-                  </div>
-                </div>
-                <div class="space-y-2 md:space-y-3">
-                  <label class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Sede para el Pedido</label>
-                  <div class="relative group">
-                    <select v-model="selectedCity" 
-                            class="w-full bg-slate-50 md:bg-white/5 border border-slate-200 md:border-white/10 rounded-xl py-3 px-4 text-slate-900 md:text-white focus:ring-2 focus:ring-orange-500 outline-none cursor-pointer appearance-none transition-all group-hover:border-slate-300 md:group-hover:border-white/20 text-sm">
-                      <option value="Táchira" class="text-slate-900">San Cristóbal (Táchira)</option>
-                      <option value="Caracas" class="text-slate-900">Caracas</option>
-                      <option value="Barinas" class="text-slate-900">Barinas</option>
-                      <option value="Nacional / Otros" class="text-slate-900">Otras Ciudades / Nacional</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-
-            <!-- Totals & Button -->
-            <div class="mt-12 pt-10 border-t border-slate-100 md:border-white/10 space-y-8 pb-32 md:pb-0">
-              <div class="space-y-5">
-                <div class="flex justify-between items-center text-slate-500 md:text-slate-400 text-sm">
-                  <span class="font-medium">Subtotal de productos:</span>
-                  <span class="font-bold text-slate-900 md:text-white text-lg">${{ cartTotal.toFixed(2) }}</span>
-                </div>
-                <div class="flex justify-between items-center text-slate-500 md:text-slate-400 text-sm">
-                  <span class="font-medium">IVA (16%):</span>
-                  <span class="font-bold text-slate-900 md:text-white text-lg">${{ cartIVA.toFixed(2) }}</span>
-                </div>
-                <div class="flex flex-col gap-2 pt-8 border-t border-slate-200 md:border-white/20 hidden md:flex">
-                  <div class="flex justify-between items-end">
-                    <span class="text-xs font-black uppercase tracking-[0.2em] text-slate-500">Monto Total Estimado</span>
-                    <span class="text-5xl font-black text-orange-500 tracking-tighter">${{ cartGrandTotal.toFixed(2) }}</span>
-                  </div>
-                </div>
-              </div>
-
-              <button @click="checkoutWhatsApp" :disabled="cart.length === 0"
-                      class="hidden md:flex w-full py-7 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-black rounded-[2.5rem] hover:scale-[1.02] active:scale-95 transition-all shadow-2xl shadow-orange-500/30 items-center justify-center gap-4 disabled:opacity-50 disabled:scale-100 disabled:shadow-none">
-                <span class="text-lg">Realizar Pedido vía WhatsApp</span>
-                <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.025 3.334l-.639 2.336 2.395-.627c1.012.554 2.112.847 3.013.847l.001-.001c3.181 0 5.769-2.587 5.77-5.768 0-3.181-2.588-5.787-5.797-5.787zm3.844 8.805c-.157.443-.913.848-1.258.896-.345.048-.689.048-1.121-.097-.281-.097-.615-.224-1.12-.423-2.008-.79-3.328-2.827-3.428-2.96-.101-.133-.808-1.077-.808-2.052 0-.974.506-1.455.688-1.657.182-.202.396-.253.528-.253.133 0 .265.001.381.006.116.006.273-.044.428.329.157.373.532 1.298.579 1.398.047.101.079.219.012.355-.067.136-.101.219-.202.339-.101.119-.214.269-.304.37-.101.114-.206.239-.089.439.117.2.521.859 1.121 1.393.771.688 1.419.902 1.621 1.002.201.101.319.084.439-.05.12-.134.521-.607.659-.813.137-.206.274-.173.463-.105.188.068 1.196.564 1.401.666.206.101.343.151.394.24.051.088.051.513-.106.956z"/></svg>
-              </button>
-              <p class="hidden md:block text-center text-[10px] text-slate-500 uppercase tracking-widest font-bold">Respuesta inmediata en horario comercial</p>
-            </div>
           </div>
         </div>
 
