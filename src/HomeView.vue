@@ -3,7 +3,7 @@
     
     <!-- HERO SECTION PREMIUM -->
     <section class="relative min-h-[70vh] py-24 flex items-center justify-center bg-slate-950">
-      <div class="absolute inset-0 z-0">
+      <div class="absolute inset-0 z-0 overflow-hidden">
         <img src="/mundo.jpg" alt="Hero Background" class="w-full h-full object-cover opacity-40 scale-105 animate-slow-zoom" />
         <div class="absolute inset-0 bg-gradient-to-b from-slate-950/80 via-transparent to-slate-950/90"></div>
       </div>
