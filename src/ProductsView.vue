@@ -252,7 +252,7 @@
                 </div>
                 <h4 class="text-2xl font-black text-slate-900 mb-2">Tu carrito está vacío</h4>
                 <p class="text-slate-400 font-medium px-10">Explora nuestro catálogo y añade los mejores vinilos a tu pedido.</p>
-                <button @click="showMobileCart = false" class="mt-8 px-8 py-4 bg-slate-900 text-white rounded-2xl font-black text-sm uppercase tracking-widest hover:scale-105 transition-transform shadow-xl">Ver Productos</button>
+                <button @click="goToSearch" class="mt-8 px-8 py-4 bg-slate-900 text-white rounded-2xl font-black text-sm uppercase tracking-widest hover:scale-105 transition-transform shadow-xl">Ver Productos</button>
               </div>
 
               <!-- Lista de ítems -->
@@ -607,6 +607,16 @@ const quickSearchResults = computed(() => {
 const quickAdd = (product) => {
   addToCart(product);
   quickSearchQuery.value = '';
+};
+
+const goToSearch = () => {
+  showMobileCart.value = false;
+  nextTick(() => {
+    setTimeout(() => {
+      const el = document.getElementById('product-search');
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+  });
 };
 
 const visiblePages = computed(() => {
