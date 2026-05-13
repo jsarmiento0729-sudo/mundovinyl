@@ -174,34 +174,41 @@
 
       <!-- CART OVERLAY MODAL (ALL DEVICES) -->
       <div v-if="showMobileCart" class="fixed inset-0 z-[120] flex items-center justify-center p-0 md:p-12">
+        <!-- Desktop backdrop -->
         <div class="absolute inset-0 bg-slate-950/80 backdrop-blur-md hidden md:block" @click="showMobileCart = false"></div>
-        
-        <div class="relative w-full max-w-7xl bg-white rounded-none md:rounded-[3rem] shadow-2xl overflow-hidden flex flex-col md:flex-row h-full md:h-[90vh] max-h-screen md:max-h-[900px] animate-slide-up">
-          
-          <!-- MOBILE HEADER (Fixed) -->
-          <div class="md:hidden flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-white z-[140]">
-             <h3 class="font-bold text-slate-900 text-lg">Tu Pedido</h3>
-             <button @click="showMobileCart = false" class="text-slate-400 p-2">
-                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-             </button>
+
+        <!-- Modal Container -->
+        <div class="relative w-full max-w-7xl bg-white rounded-none md:rounded-[3rem] shadow-2xl overflow-hidden flex flex-col h-full md:h-[90vh] max-h-screen md:max-h-[900px] animate-slide-up">
+
+          <!-- ═══════════════════════════════════════ -->
+          <!--  MOBILE HEADER (fijo en la parte alta)  -->
+          <!-- ═══════════════════════════════════════ -->
+          <div class="md:hidden flex-shrink-0 flex items-center justify-between px-5 py-4 border-b border-slate-100 bg-white z-10">
+            <h3 class="font-black text-slate-900 text-lg">Tu Pedido</h3>
+            <button @click="showMobileCart = false" class="text-slate-400 p-2 hover:text-slate-600">
+              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
           </div>
 
-          <!-- Main Area (Scrollable on Mobile, Two-Column on Desktop) -->
-          <div class="flex-grow flex flex-col md:flex-row overflow-y-auto md:overflow-hidden h-full">
-            
-            <!-- Cart Items List (Left/Main) -->
-            <div class="flex-grow p-4 md:p-12 md:overflow-y-auto custom-scrollbar bg-white md:bg-slate-50">
-              
-              <!-- Navigation Back (Mobile) -->
-              <div class="md:hidden flex justify-between items-center mb-6">
-                 <button @click="showMobileCart = false" class="text-xs font-bold text-orange-500 flex items-center gap-1">
-                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-                    Seguir comprando
-                 </button>
-                 <button @click="clearCart" class="text-[10px] font-bold uppercase tracking-widest text-slate-400 underline underline-offset-4">Vaciar Carrito</button>
+          <!-- ═══════════════════════════════════════════════════════════════════════ -->
+          <!--  BODY: en móvil = columna única scrollable; en desktop = dos columnas  -->
+          <!-- ═══════════════════════════════════════════════════════════════════════ -->
+          <div class="flex-grow flex flex-col md:flex-row overflow-y-auto md:overflow-hidden min-h-0">
+
+            <!-- ─── COLUMNA IZQUIERDA: Lista de productos ─── -->
+            <div class="flex-grow p-4 md:p-12 overflow-y-auto md:overflow-y-auto custom-scrollbar bg-white md:bg-slate-50">
+
+              <!-- Botón volver + vaciar (solo mobile) -->
+              <div class="md:hidden flex justify-between items-center mb-5">
+                <button @click="showMobileCart = false" class="text-xs font-bold text-orange-500 flex items-center gap-1">
+                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                  Seguir comprando
+                </button>
+                <button @click="clearCart" class="text-[10px] font-bold uppercase tracking-widest text-slate-400 underline underline-offset-4">Vaciar Carrito</button>
               </div>
 
-              <div class="flex justify-between items-end mb-10 hidden md:flex">
+              <!-- Título + cerrar (solo desktop) -->
+              <div class="hidden md:flex justify-between items-end mb-10">
                 <div>
                   <h3 class="text-4xl font-black text-slate-900 tracking-tight mb-2">Tu Carrito</h3>
                   <p class="text-slate-400 font-bold uppercase tracking-widest text-[10px]">Gestiona tus productos antes de finalizar</p>
@@ -214,195 +221,196 @@
                 </button>
               </div>
 
-            <!-- Quick Add Search -->
-            <div class="mb-10 relative">
-              <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 block">¿Olvidaste algo? Añádelo rápido:</label>
-              <div class="relative group">
-                <input 
-                  v-model="quickSearchQuery"
-                  type="text" 
-                  placeholder="Buscar producto para añadir..." 
-                  class="w-full bg-slate-50 md:bg-white border border-slate-200 rounded-2xl py-4 px-12 shadow-sm focus:ring-2 focus:ring-orange-500 outline-none transition-all"
-                />
-                <svg class="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-              </div>
-
-              <!-- Quick Results Dropdown -->
-              <div v-if="quickSearchQuery && quickSearchResults.length > 0" 
-                   class="absolute left-0 right-0 mt-2 bg-white rounded-2xl shadow-2xl border border-slate-100 z-50 overflow-hidden animate-slide-up max-h-[300px] overflow-y-auto custom-scrollbar-sidebar">
-                <div v-for="p in quickSearchResults" :key="p.id" 
-                     @click="quickAdd(p)"
-                     class="p-4 flex items-center gap-4 hover:bg-orange-5 cursor-pointer transition-colors border-b border-slate-50 last:border-0">
-                  <img :src="p.image" class="w-12 h-12 object-cover rounded-lg border border-slate-100" />
-                  <div class="flex-grow text-left">
-                    <p class="text-sm font-bold text-slate-900 leading-tight">{{ p.name }}</p>
-                    <p class="text-xs text-orange-600 font-black">${{ p.prices[selectedCity].toFixed(2) }}</p>
-                  </div>
-                  <div class="w-8 h-8 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center">
-                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+              <!-- Búsqueda rápida -->
+              <div class="mb-8 relative">
+                <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 block">¿Olvidaste algo? Añádelo rápido:</label>
+                <div class="relative">
+                  <input v-model="quickSearchQuery" type="text" placeholder="Buscar producto para añadir..."
+                    class="w-full bg-slate-50 md:bg-white border border-slate-200 rounded-2xl py-4 px-12 shadow-sm focus:ring-2 focus:ring-orange-500 outline-none transition-all" />
+                  <svg class="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </div>
+                <div v-if="quickSearchQuery && quickSearchResults.length > 0"
+                  class="absolute left-0 right-0 mt-2 bg-white rounded-2xl shadow-2xl border border-slate-100 z-50 max-h-[300px] overflow-y-auto custom-scrollbar-sidebar">
+                  <div v-for="p in quickSearchResults" :key="p.id" @click="quickAdd(p)"
+                    class="p-4 flex items-center gap-4 hover:bg-orange-50 cursor-pointer transition-colors border-b border-slate-50 last:border-0">
+                    <img :src="p.image" class="w-12 h-12 object-cover rounded-lg border border-slate-100" />
+                    <div class="flex-grow">
+                      <p class="text-sm font-bold text-slate-900 leading-tight">{{ p.name }}</p>
+                      <p class="text-xs text-orange-600 font-black">${{ p.prices[selectedCity].toFixed(2) }}</p>
+                    </div>
+                    <div class="w-8 h-8 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center flex-shrink-0">
+                      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div v-if="cart.length === 0" class="py-24 text-center bg-white rounded-3xl border-2 border-dashed border-slate-100 mx-2">
-              <div class="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner">
-                <svg class="w-12 h-12 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
-              </div>
-              <h4 class="text-2xl font-black text-slate-900 mb-2">Tu carrito está vacío</h4>
-              <p class="text-slate-400 font-medium px-10">Explora nuestro catálogo y añade los mejores vinilos a tu pedido.</p>
-              <button @click="showMobileCart = false" class="mt-8 px-8 py-4 bg-slate-900 text-white rounded-2xl font-black text-sm uppercase tracking-widest hover:scale-105 transition-transform shadow-xl">Ver Productos</button>
-            </div>
-
-            <div v-else class="flex flex-col gap-2">
-              <!-- Header Tabla Desktop -->
-              <div class="hidden md:flex items-center gap-6 pb-6 border-b border-slate-200 text-[10px] font-black uppercase tracking-widest text-slate-400 px-2">
-                <div class="w-24">Producto</div>
-                <div class="flex-grow">Descripción</div>
-                <div class="w-32 text-center">Cantidad</div>
-                <div class="w-32 text-right">Subtotal</div>
-                <div class="w-10"></div>
+              <!-- Carrito vacío -->
+              <div v-if="cart.length === 0" class="py-24 text-center bg-white rounded-3xl border-2 border-dashed border-slate-100">
+                <div class="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner">
+                  <svg class="w-12 h-12 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                </div>
+                <h4 class="text-2xl font-black text-slate-900 mb-2">Tu carrito está vacío</h4>
+                <p class="text-slate-400 font-medium px-10">Explora nuestro catálogo y añade los mejores vinilos a tu pedido.</p>
+                <button @click="showMobileCart = false" class="mt-8 px-8 py-4 bg-slate-900 text-white rounded-2xl font-black text-sm uppercase tracking-widest hover:scale-105 transition-transform shadow-xl">Ver Productos</button>
               </div>
 
-                <!-- Item List -->
-              <div v-for="item in cart" :key="item.id" 
-                   class="bg-white md:bg-transparent rounded-2xl md:rounded-none p-4 md:p-6 border border-slate-100 md:border-0 md:border-b md:border-slate-100 last:border-0 flex flex-col md:flex-row md:items-center md:gap-6 transition-all shadow-sm md:shadow-none mb-3 md:mb-0">
-                <div class="flex flex-col md:flex-row md:items-center gap-4 md:gap-6 w-full">
-                  <!-- Imagen e Info -->
-                  <div class="flex items-start gap-4 flex-grow min-w-0">
+              <!-- Lista de ítems -->
+              <div v-else>
+                <!-- Encabezado tabla (solo desktop) -->
+                <div class="hidden md:flex items-center gap-6 pb-6 border-b border-slate-200 text-[10px] font-black uppercase tracking-widest text-slate-400 px-2">
+                  <div class="w-24">Producto</div>
+                  <div class="flex-grow">Descripción</div>
+                  <div class="w-36 text-center">Cantidad</div>
+                  <div class="w-32 text-right">Subtotal</div>
+                  <div class="w-10"></div>
+                </div>
+
+                <!-- Ítem -->
+                <div v-for="item in cart" :key="item.id"
+                  class="flex flex-col md:flex-row md:items-center md:gap-6 py-4 md:py-6 border-b border-slate-100 last:border-0">
+
+                  <!-- Imagen + Info -->
+                  <div class="flex items-start gap-4 flex-grow min-w-0 mb-3 md:mb-0">
                     <img :src="item.image" class="w-20 h-20 md:w-24 md:h-24 object-cover rounded-xl border border-slate-100 shadow-sm flex-shrink-0" />
                     <div class="min-w-0 flex-grow">
-                      <h4 class="font-bold text-slate-900 text-base md:text-lg truncate leading-tight">{{ item.name }}</h4>
+                      <h4 class="font-bold text-slate-900 text-base md:text-lg leading-tight">{{ item.name }}</h4>
                       <p class="text-xs text-slate-500 mt-1 line-clamp-2 md:line-clamp-none leading-relaxed">{{ item.description }}</p>
                       <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1.5">Cod: {{ item.id }}</p>
                     </div>
                   </div>
 
-                  <!-- Cantidad y Subtotal -->
-                  <div class="flex items-center justify-between md:justify-end md:gap-8 pt-3 md:pt-0 border-t md:border-0 border-slate-50">
-                    <!-- Selector Cantidad -->
+                  <!-- Cantidad + Subtotal + Eliminar -->
+                  <div class="flex items-center justify-between md:justify-end md:gap-6">
+                    <!-- Cantidad -->
                     <div class="w-32 md:w-36 flex-shrink-0">
-                      <div class="flex items-center gap-1 bg-slate-100/50 md:bg-slate-50 border border-slate-200 rounded-xl p-1 h-10 md:h-12">
-                        <button @click="removeFromCart(item.id)" class="w-10 h-full flex items-center justify-center text-slate-500 hover:text-orange-500 text-xl font-bold transition-colors">-</button>
-                        <div class="flex-grow text-center font-black text-slate-900 text-sm md:text-base">
+                      <div class="flex items-center bg-slate-100 md:bg-slate-50 border border-slate-200 rounded-xl overflow-hidden h-10 md:h-12">
+                        <button @click="removeFromCart(item.id)" class="w-10 h-full flex items-center justify-center text-slate-500 hover:text-orange-500 text-xl font-bold transition-colors flex-shrink-0">-</button>
+                        <div class="flex-grow text-center font-black text-slate-900 text-sm md:text-base select-none">
                           {{ isDecimalProduct(item) ? item.quantity.toFixed(2) : item.quantity }}
                         </div>
-                        <button @click="addToCart(item)" class="w-10 h-full flex items-center justify-center text-slate-500 hover:text-orange-500 text-xl font-bold transition-colors">+</button>
+                        <button @click="addToCart(item)" class="w-10 h-full flex items-center justify-center text-slate-500 hover:text-orange-500 text-xl font-bold transition-colors flex-shrink-0">+</button>
                       </div>
                     </div>
 
                     <!-- Subtotal -->
-                    <div class="text-right min-w-[100px] md:w-32">
+                    <div class="text-right w-28 md:w-32 flex-shrink-0">
                       <p class="text-[10px] font-bold uppercase text-slate-400 md:hidden mb-0.5">Subtotal</p>
                       <p class="font-black text-blue-900 text-lg md:text-xl tracking-tight">
-                        $ {{ (item.quantity * item.prices[selectedCity]).toFixed(2) }}
+                        ${{ (item.quantity * item.prices[selectedCity]).toFixed(2) }}
                       </p>
                     </div>
 
-                    <!-- Borrado (Mobile - Trash Icon inside card) -->
-                    <button @click="deleteFromCart(item.id)" class="md:hidden ml-4 p-2 text-slate-300 hover:text-red-500 bg-slate-50 rounded-lg transition-colors">
-                       <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                    </button>
-
-                    <!-- Papelera Desktop -->
-                    <div class="hidden md:block w-10">
-                      <button @click="deleteFromCart(item.id)" class="text-slate-300 hover:text-red-500 transition-colors">
+                    <!-- Eliminar -->
+                    <div class="flex-shrink-0 md:w-10">
+                      <button @click="deleteFromCart(item.id)" class="p-2 text-slate-300 hover:text-red-500 transition-colors rounded-lg hover:bg-red-50">
                         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                       </button>
                     </div>
                   </div>
                 </div>
               </div>
+
+              <!-- Espaciado extra en mobile para que el sticky footer no tape contenido -->
+              <div class="md:hidden h-36"></div>
             </div>
-            
-            <!-- Order Summary & Checkout (Right Sidebar in Modal) -->
-            <!-- En móvil, esto aparece debajo de los productos y todo hace scroll junto -->
-            <div class="w-full md:w-[450px] bg-white md:bg-slate-900 p-6 md:p-12 flex flex-col md:border-l border-slate-100 md:border-white/5 md:overflow-y-auto custom-scrollbar flex-shrink-0">
-              <div class="space-y-6 md:space-y-10 flex-grow">
-                <div class="hidden md:flex justify-between items-center">
-                  <h4 class="text-xl font-black uppercase tracking-widest text-orange-500">Resumen</h4>
-                  <button @click="clearCart" class="text-[10px] font-black uppercase tracking-widest text-red-400/60 hover:text-red-400 transition-colors">Vaciar Carrito</button>
-                </div>
-                
-                <!-- Customer Form -->
-                <div class="space-y-4 md:space-y-8">
-                  <div class="space-y-2 md:space-y-3">
-                    <label class="text-[10px] font-bold uppercase tracking-widest text-slate-400 flex justify-between items-center">
-                      <span>Nombre del Cliente</span>
-                      <span v-if="!customerName" class="text-orange-500/50 text-[8px]">Requerido</span>
-                    </label>
-                    <div class="relative group">
-                      <input v-model="customerName" type="text" placeholder="Ej: Juan Pérez" 
-                            class="w-full bg-slate-50 md:bg-white/5 border border-slate-200 md:border-white/10 rounded-xl py-3 px-4 text-slate-900 md:text-white focus:ring-2 focus:ring-orange-500 outline-none transition-all group-hover:border-slate-300 md:group-hover:border-white/20 text-sm" />
-                    </div>
-                  </div>
-                  <div class="space-y-2 md:space-y-3">
-                    <label class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Sede para el Pedido</label>
-                    <div class="relative group">
-                      <select v-model="selectedCity" 
-                              class="w-full bg-slate-50 md:bg-white/5 border border-slate-200 md:border-white/10 rounded-xl py-3 px-4 text-slate-900 md:text-white focus:ring-2 focus:ring-orange-500 outline-none cursor-pointer appearance-none transition-all group-hover:border-slate-300 md:group-hover:border-white/20 text-sm">
-                        <option value="Táchira" class="text-slate-900">San Cristóbal (Táchira)</option>
-                        <option value="Caracas" class="text-slate-900">Caracas</option>
-                        <option value="Barinas" class="text-slate-900">Barinas</option>
-                        <option value="Nacional / Otros" class="text-slate-900">Otras Ciudades / Nacional</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
+            <!-- ─── FIN COLUMNA IZQUIERDA ─── -->
 
-                <!-- Totals & Button -->
-                <div class="mt-12 pt-10 border-t border-slate-100 md:border-white/10 space-y-8 pb-32 md:pb-0">
-                  <div class="space-y-5">
-                    <div class="flex justify-between items-center text-slate-500 md:text-slate-400 text-sm">
-                      <span class="font-medium">Subtotal de productos:</span>
-                      <span class="font-bold text-slate-900 md:text-white text-lg">${{ cartTotal.toFixed(2) }}</span>
-                    </div>
-                    <div class="flex justify-between items-center text-slate-500 md:text-slate-400 text-sm">
-                      <span class="font-medium">IVA (16%):</span>
-                      <span class="font-bold text-slate-900 md:text-white text-lg">${{ cartIVA.toFixed(2) }}</span>
-                    </div>
-                    <div class="flex flex-col gap-2 pt-8 border-t border-slate-200 md:border-white/20 hidden md:flex">
-                      <div class="flex justify-between items-end">
-                        <span class="text-xs font-black uppercase tracking-[0.2em] text-slate-500">Monto Total Estimado</span>
-                        <span class="text-5xl font-black text-orange-500 tracking-tighter">${{ cartGrandTotal.toFixed(2) }}</span>
-                      </div>
-                    </div>
-                  </div>
+            <!-- ─── COLUMNA DERECHA: Resumen y formulario (solo visible en desktop) ─── -->
+            <div class="hidden md:flex w-[420px] flex-shrink-0 flex-col bg-slate-900 p-12 border-l border-white/5 overflow-y-auto custom-scrollbar">
+              <div class="flex justify-between items-center mb-10">
+                <h4 class="text-xl font-black uppercase tracking-widest text-orange-500">Resumen</h4>
+                <button @click="clearCart" class="text-[10px] font-black uppercase tracking-widest text-red-400/60 hover:text-red-400 transition-colors">Vaciar Carrito</button>
+              </div>
 
-                  <button @click="checkoutWhatsApp" :disabled="cart.length === 0"
-                          class="hidden md:flex w-full py-7 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-black rounded-[2.5rem] hover:scale-[1.02] active:scale-95 transition-all shadow-2xl shadow-orange-500/30 items-center justify-center gap-4 disabled:opacity-50 disabled:scale-100 disabled:shadow-none">
-                    <span class="text-lg">Realizar Pedido vía WhatsApp</span>
-                    <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.025 3.334l-.639 2.336 2.395-.627c1.012.554 2.112.847 3.013.847l.001-.001c3.181 0 5.769-2.587 5.77-5.768 0-3.181-2.588-5.787-5.797-5.787zm3.844 8.805c-.157.443-.913.848-1.258.896-.345.048-.689.048-1.121-.097-.281-.097-.615-.224-1.12-.423-2.008-.79-3.328-2.827-3.428-2.96-.101-.133-.808-1.077-.808-2.052 0-.974.506-1.455.688-1.657.182-.202.396-.253.528-.253.133 0 .265.001.381.006.116.006.273-.044.428.329.157.373.532 1.298.579 1.398.047.101.079.219.012.355-.067.136-.101.219-.202.339-.101.119-.214.269-.304.37-.101.114-.206.239-.089.439.117.2.521.859 1.121 1.393.771.688 1.419.902 1.621 1.002.201.101.319.084.439-.05.12-.134.521-.607.659-.813.137-.206.274-.173.463-.105.188.068 1.196.564 1.401.666.206.101.343.151.394.24.051.088.051.513-.106.956z"/></svg>
-                  </button>
-                  <p class="hidden md:block text-center text-[10px] text-slate-500 uppercase tracking-widest font-bold">Respuesta inmediata en horario comercial</p>
+              <!-- Formulario cliente -->
+              <div class="space-y-6 mb-auto">
+                <div>
+                  <label class="text-[10px] font-bold uppercase tracking-widest text-slate-400 flex justify-between mb-2">
+                    <span>Nombre del Cliente</span>
+                    <span v-if="!customerName" class="text-orange-500/50 text-[8px]">Requerido</span>
+                  </label>
+                  <input v-model="customerName" type="text" placeholder="Ej: Juan Pérez"
+                    class="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-white focus:ring-2 focus:ring-orange-500 outline-none transition-all hover:border-white/20 text-sm" />
+                </div>
+                <div>
+                  <label class="text-[10px] font-bold uppercase tracking-widest text-slate-400 block mb-2">Sede para el Pedido</label>
+                  <select v-model="selectedCity"
+                    class="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-white focus:ring-2 focus:ring-orange-500 outline-none cursor-pointer appearance-none transition-all hover:border-white/20 text-sm">
+                    <option value="Táchira" class="text-slate-900">San Cristóbal (Táchira)</option>
+                    <option value="Caracas" class="text-slate-900">Caracas</option>
+                    <option value="Barinas" class="text-slate-900">Barinas</option>
+                    <option value="Nacional / Otros" class="text-slate-900">Otras Ciudades / Nacional</option>
+                  </select>
                 </div>
               </div>
+
+              <!-- Totales -->
+              <div class="mt-10 pt-8 border-t border-white/10 space-y-4">
+                <div class="flex justify-between items-center text-slate-400 text-sm">
+                  <span>Subtotal:</span>
+                  <span class="font-bold text-white">${{ cartTotal.toFixed(2) }}</span>
+                </div>
+                <div class="flex justify-between items-center text-slate-400 text-sm">
+                  <span>IVA (16%):</span>
+                  <span class="font-bold text-white">${{ cartIVA.toFixed(2) }}</span>
+                </div>
+                <div class="flex justify-between items-end pt-4 border-t border-white/10">
+                  <span class="text-xs font-black uppercase tracking-[0.2em] text-slate-400">Total Estimado</span>
+                  <span class="text-4xl font-black text-orange-500 tracking-tighter">${{ cartGrandTotal.toFixed(2) }}</span>
+                </div>
+              </div>
+
+              <!-- Botón checkout desktop -->
+              <button @click="checkoutWhatsApp" :disabled="cart.length === 0"
+                class="mt-8 flex w-full py-6 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-black rounded-3xl hover:scale-[1.02] active:scale-95 transition-all shadow-2xl shadow-orange-500/30 items-center justify-center gap-4 disabled:opacity-50 disabled:scale-100 disabled:shadow-none">
+                <span class="text-base">Realizar Pedido vía WhatsApp</span>
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.025 3.334l-.639 2.336 2.395-.627c1.012.554 2.112.847 3.013.847l.001-.001c3.181 0 5.769-2.587 5.77-5.768 0-3.181-2.588-5.787-5.797-5.787zm3.844 8.805c-.157.443-.913.848-1.258.896-.345.048-.689.048-1.121-.097-.281-.097-.615-.224-1.12-.423-2.008-.79-3.328-2.827-3.428-2.96-.101-.133-.808-1.077-.808-2.052 0-.974.506-1.455.688-1.657.182-.202.396-.253.528-.253.133 0 .265.001.381.006.116.006.273-.044.428.329.157.373.532 1.298.579 1.398.047.101.079.219.012.355-.067.136-.101.219-.202.339-.101.119-.214.269-.304.37-.101.114-.206.239-.089.439.117.2.521.859 1.121 1.393.771.688 1.419.902 1.621 1.002.201.101.319.084.439-.05.12-.134.521-.607.659-.813.137-.206.274-.173.463-.105.188.068 1.196.564 1.401.666.206.101.343.151.394.24.051.088.051.513-.106.956z"/></svg>
+              </button>
+              <p class="text-center text-[10px] text-slate-500 uppercase tracking-widest font-bold mt-4">Respuesta inmediata en horario comercial</p>
             </div>
+            <!-- ─── FIN COLUMNA DERECHA ─── -->
 
           </div>
-        </div>
+          <!-- ─── FIN BODY ─── -->
 
-          <!-- STICKY MOBILE FOOTER -->
-          <div class="md:hidden bg-white border-t border-slate-100 p-4 shadow-[0_-20px_50px_rgba(0,0,0,0.08)] z-[140]">
-             <div class="flex justify-between items-center mb-4">
-                <div>
-                   <p class="text-[10px] font-bold uppercase text-slate-400 tracking-widest mb-0.5">Total</p>
-                   <p class="text-2xl font-bold text-slate-900 tracking-tight">${{ cartGrandTotal.toFixed(2) }}</p>
-                </div>
-                <div class="text-right">
-                   <p class="text-[10px] font-bold uppercase text-slate-400 tracking-widest mb-0.5">IVA Incl.</p>
-                   <p class="text-sm font-bold text-slate-500">${{ cartIVA.toFixed(2) }}</p>
-                </div>
-             </div>
-             <button @click="checkoutWhatsApp" :disabled="cart.length === 0"
-                     class="w-full py-4 bg-orange-500 text-white font-bold rounded-xl flex items-center justify-center gap-3 shadow-lg shadow-orange-500/20 active:scale-95 transition-all">
+          <!-- ═══════════════════════════════════════════════════════════ -->
+          <!--  MOBILE FOOTER STICKY: solo visible en móvil, siempre fijo -->
+          <!-- ═══════════════════════════════════════════════════════════ -->
+          <div class="md:hidden flex-shrink-0 bg-white border-t border-slate-100 px-5 py-4 shadow-[0_-10px_30px_rgba(0,0,0,0.08)] z-10">
+            <!-- Formulario cliente mobile -->
+            <div class="flex gap-3 mb-3">
+              <input v-model="customerName" type="text" placeholder="Tu nombre (requerido)"
+                class="flex-grow bg-slate-50 border border-slate-200 rounded-xl py-2.5 px-3 text-slate-900 focus:ring-2 focus:ring-orange-500 outline-none text-sm" />
+              <select v-model="selectedCity"
+                class="w-32 bg-slate-50 border border-slate-200 rounded-xl py-2.5 px-3 text-slate-900 focus:ring-2 focus:ring-orange-500 outline-none text-sm appearance-none">
+                <option value="Táchira">Táchira</option>
+                <option value="Caracas">Caracas</option>
+                <option value="Barinas">Barinas</option>
+                <option value="Nacional / Otros">Nacional</option>
+              </select>
+            </div>
+            <!-- Total + Botón -->
+            <div class="flex items-center gap-3">
+              <div class="flex-shrink-0">
+                <p class="text-[10px] font-bold uppercase text-slate-400 tracking-widest">Total</p>
+                <p class="text-2xl font-black text-slate-900 tracking-tight leading-none">${{ cartGrandTotal.toFixed(2) }}</p>
+              </div>
+              <button @click="checkoutWhatsApp" :disabled="cart.length === 0"
+                class="flex-grow py-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-black rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-orange-500/20 active:scale-95 transition-all disabled:opacity-50">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.025 3.334l-.639 2.336 2.395-.627c1.012.554 2.112.847 3.013.847l.001-.001c3.181 0 5.769-2.587 5.77-5.768 0-3.181-2.588-5.787-5.797-5.787zm3.844 8.805c-.157.443-.913.848-1.258.896-.345.048-.689.048-1.121-.097-.281-.097-.615-.224-1.12-.423-2.008-.79-3.328-2.827-3.428-2.96-.101-.133-.808-1.077-.808-2.052 0-.974.506-1.455.688-1.657.182-.202.396-.253.528-.253.133 0 .265.001.381.006.116.006.273-.044.428.329.157.373.532 1.298.579 1.398.047.101.079.219.012.355-.067.136-.101.219-.202.339-.101.119-.214.269-.304.37-.101.114-.206.239-.089.439.117.2.521.859 1.121 1.393.771.688 1.419.902 1.621 1.002.201.101.319.084.439-.05.12-.134.521-.607.659-.813.137-.206.274-.173.463-.105.188.068 1.196.564 1.401.666.206.101.343.151.394.24.051.088.051.513-.106.956z"/></svg>
                 <span class="text-sm uppercase tracking-widest">Confirmar Pedido</span>
-                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-             </button>
+              </button>
+            </div>
+          </div>
+          <!-- ─── FIN MOBILE FOOTER ─── -->
+
         </div>
+        <!-- ─── FIN MODAL CONTAINER ─── -->
       </div>
-    </div>
+      <!-- ─── FIN CART OVERLAY MODAL ─── -->
   </div>
+
 </template>
 
 <script setup>
