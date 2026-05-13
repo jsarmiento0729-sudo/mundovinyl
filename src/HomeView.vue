@@ -2,7 +2,7 @@
   <div class="bg-slate-50 font-sans selection:bg-orange-500 selection:text-white">
     
     <!-- HERO SECTION PREMIUM -->
-    <section class="relative h-[80vh] min-h-[500px] flex items-center justify-center overflow-hidden bg-slate-950">
+    <section class="relative min-h-[70vh] py-24 flex items-center justify-center bg-slate-950">
       <div class="absolute inset-0 z-0">
         <img src="/mundo.jpg" alt="Hero Background" class="w-full h-full object-cover opacity-40 scale-105 animate-slow-zoom" />
         <div class="absolute inset-0 bg-gradient-to-b from-slate-950/80 via-transparent to-slate-950/90"></div>
@@ -13,18 +13,18 @@
           <span class="inline-block px-4 py-1.5 mb-4 text-xs font-black tracking-widest text-orange-500 uppercase bg-orange-500/10 rounded-full border border-orange-500/20 animate-fade-in-down">
             Expertos en Soluciones Gráficas
           </span>
-          <h1 class="text-4xl md:text-6xl lg:text-7xl font-black text-white mb-6 leading-tight tracking-tight animate-fade-in-up">
+          <h1 class="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white mb-6 leading-tight tracking-tight animate-fade-in-up">
             Potencia tu <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-600">creatividad</span> al máximo
           </h1>
           <p class="text-lg md:text-xl text-slate-300 mb-8 max-w-2xl mx-auto font-light leading-relaxed animate-fade-in-up delay-100">
             Distribución líder de insumos, vinilos y materiales profesionales para la industria publicitaria en toda Venezuela desde el 2011.
           </p>
           <div class="flex flex-col sm:flex-row items-center justify-center gap-6 animate-fade-in-up delay-200">
-            <router-link to="/productos" class="w-full sm:w-auto px-10 py-5 bg-orange-600 hover:bg-orange-700 text-white font-black rounded-2xl transition-all shadow-xl shadow-orange-600/30 transform hover:-translate-y-1 flex items-center justify-center gap-2">
+            <router-link to="/productos" class="w-full sm:w-auto px-8 py-4 bg-orange-600 hover:bg-orange-700 text-white font-black rounded-2xl transition-all shadow-xl shadow-orange-600/30 transform hover:-translate-y-1 flex items-center justify-center gap-2">
               Explorar Catálogo
               <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
             </router-link>
-            <router-link to="/contactanos" class="w-full sm:w-auto px-10 py-5 bg-white/10 hover:bg-white/20 text-white font-black rounded-2xl transition-all backdrop-blur-md border border-white/20 flex items-center justify-center gap-2">
+            <router-link to="/contactanos" class="w-full sm:w-auto px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-black rounded-2xl transition-all backdrop-blur-md border border-white/20 flex items-center justify-center gap-2">
               Asesoría Técnica
             </router-link>
           </div>
