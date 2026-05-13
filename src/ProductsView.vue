@@ -186,14 +186,18 @@
              </button>
           </div>
 
-          <!-- Main Scrollable Area -->
-          <div class="flex-grow flex flex-col md:flex-row overflow-hidden h-full">
+          <!-- Main Area (Scrollable on Mobile, Two-Column on Desktop) -->
+          <div class="flex-grow flex flex-col md:flex-row overflow-y-auto md:overflow-hidden h-full">
             
             <!-- Cart Items List (Left/Main) -->
-            <div class="flex-grow p-4 md:p-12 overflow-y-auto custom-scrollbar bg-white md:bg-slate-50">
+            <div class="flex-grow p-4 md:p-12 md:overflow-y-auto custom-scrollbar bg-white md:bg-slate-50">
               
-              <!-- Discrete Vaciar Carrito (Mobile) -->
-              <div class="md:hidden flex justify-end mb-4">
+              <!-- Navigation Back (Mobile) -->
+              <div class="md:hidden flex justify-between items-center mb-6">
+                 <button @click="showMobileCart = false" class="text-xs font-bold text-orange-500 flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    Seguir comprando
+                 </button>
                  <button @click="clearCart" class="text-[10px] font-bold uppercase tracking-widest text-slate-400 underline underline-offset-4">Vaciar Carrito</button>
               </div>
 
@@ -312,7 +316,7 @@
           </div>
 
           <!-- Order Summary & Checkout (Right Sidebar in Modal) -->
-          <div class="w-full md:w-[450px] bg-white md:bg-slate-900 p-6 md:p-12 flex flex-col md:border-l border-slate-100 md:border-white/5 overflow-y-visible md:overflow-y-auto custom-scrollbar">
+          <div class="w-full md:w-[450px] bg-white md:bg-slate-900 p-6 md:p-12 flex flex-col md:border-l border-slate-100 md:border-white/5 md:overflow-y-auto custom-scrollbar">
             <div class="space-y-6 md:space-y-10 flex-grow">
               <div class="hidden md:flex justify-between items-center">
                 <h4 class="text-xl font-black uppercase tracking-widest text-orange-500">Resumen</h4>
