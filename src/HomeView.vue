@@ -4,7 +4,7 @@
     <!-- HERO SECTION PREMIUM -->
     <section class="relative min-h-[70vh] py-24 flex items-center justify-center bg-slate-950">
       <div class="absolute inset-0 z-0 overflow-hidden">
-        <img src="/mundo.jpg" alt="Hero Background" class="w-full h-full object-cover opacity-40 scale-105 animate-slow-zoom" />
+        <img src="/portada.jpg" alt="Hero Background" class="w-full h-full object-cover opacity-40 scale-105 animate-slow-zoom" />
         <div class="absolute inset-0 bg-gradient-to-b from-slate-950/80 via-transparent to-slate-950/90"></div>
       </div>
 
@@ -121,19 +121,7 @@
           
           <div class="relative">
             <div class="aspect-square rounded-[3rem] overflow-hidden shadow-2xl border-8 border-white/5">
-              <img src="/logo2.png" alt="Featured Work" class="w-full h-full object-cover" />
-            </div>
-            <!-- Floating element -->
-            <div class="absolute -bottom-10 left-1/2 -translate-x-1/2 bg-white p-6 rounded-[2rem] shadow-2xl hidden md:block min-w-[280px]">
-              <div class="flex flex-col items-center text-center gap-3">
-                <div class="w-14 h-14 bg-green-100 text-green-600 rounded-2xl flex items-center justify-center shadow-inner">
-                  <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20"><path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 11-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"></path></svg>
-                </div>
-                <div>
-                  <div class="text-base font-black text-slate-900 mb-1">Satisfacción Total</div>
-                  <div class="text-xs text-slate-500 font-medium">Calificación 5/5 de nuestros clientes</div>
-                </div>
-              </div>
+              <img src="/expertos.jpg" alt="Featured Work" class="w-full h-full object-cover" />
             </div>
           </div>
         </div>
@@ -185,16 +173,13 @@ const scrollCategories = (direction) => {
 };
 
 const allCategories = [
-  { name: 'Viniles de Corte', slug: 'vinil-corte', icon: '🎨', image: '/vinil_corte.png' },
-  { name: 'Vinil Textil', slug: 'vinil-textil', icon: '👕', image: '/logo2.png' },
-  { name: 'Sublimación', slug: 'sublimacion', icon: '🌀', image: '/mundo.jpg' },
-  { name: 'Tintas', slug: 'tintas', icon: '🧪', image: '/logo2.png' },
-  { name: 'Prendas', slug: 'prendas', icon: '🎽', image: '/logo2.png' },
-  { name: 'Rollos y Otros', slug: 'rollos', icon: '📦', image: '/mundo.jpg' },
-  { name: 'Reflectivos y Screem', slug: 'reflectivos', icon: '✨', image: '/vinil_corte.png' },
-  { name: 'Vinil de Impresión', slug: 'impresion', icon: '🖨️', image: '/mundo.jpg' },
-  { name: 'Fantasy y Holográficos', slug: 'fantasy', icon: '🌈', image: '/logo2.png' },
-  { name: 'Otros Insumos', slug: 'otros', icon: '🛠️', image: '/logo2.png' },
+  { name: 'Viniles de Corte', slug: 'vinil-corte', icon: '', image: '/vinil_corte.png' },
+  { name: 'Vinil Textil', slug: 'vinil-textil', icon: '', image: '/vinil_textil.png' },
+  { name: 'Sublimación', slug: 'sublimacion', icon: '', image: '/sublimacion.png' },
+  { name: 'Tintas sublimacion', slug: 'tintas', icon: '', image: '/tintas_sublimacion.png' },
+  { name: 'Prendas', slug: 'prendas', icon: '', image: '/prendas.png' },
+  { name: 'Tazas', slug: 'tazas', icon: '', image: '/tazas.jpg' },
+  { name: 'Vinil de Impresión', slug: 'impresion', icon: '', image: '/IMPRESION.jpg' },
 ];
 
 const clients = [
