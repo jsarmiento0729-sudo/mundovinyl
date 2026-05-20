@@ -99,7 +99,7 @@
           <div class="space-y-8">
             <router-link to="/" class="flex items-center gap-3 group">
               <img src="/LOGO.jpg" alt="MundoVinyl Logo" class="h-12 w-auto object-contain brightness-110 group-hover:scale-105 transition-transform duration-300" />
-              <span class="text-2xl font-black text-white uppercase tracking-tighter">mundovinyl</span>
+              <span class="text-2xl font-black text-white uppercase tracking-tighter">DISTRIBUIDORA MUNDOVINYL C.A</span>
             </router-link>
             <p class="text-slate-400 leading-relaxed text-sm">
               Líderes en distribución de insumos y materiales de alta gama para la industria gráfica y publicitaria en toda Venezuela. Transformamos tu visión en realidad.
@@ -151,7 +151,7 @@
         </div>
 
         <div class="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-xs text-slate-500">
-          <p>© 2024 MundoVinyl C.A. Todos los derechos reservados. RIF: J-40500343-0</p>
+          <p>© 2024 DISTRIBUIDORA MUNDOVINYL C.A. Todos los derechos reservados. RIF: J-40500343-0</p>
           <div class="flex items-center gap-8">
             <a href="#" class="hover:text-slate-300">Términos y Condiciones</a>
             <a href="#" class="hover:text-slate-300">Privacidad</a>
